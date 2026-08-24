@@ -88,3 +88,24 @@
     animation: none;
   }
 }
+
+.workflow-pagination {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.workflow-pagination .swiper-pagination-bullet {
+  width: 24px;
+  height: 2px;
+  margin: 0 !important;
+  border-radius: 0;
+  background: rgba(255, 255, 255, 0.2);
+  opacity: 1;
+  transition: all 0.3s ease;
+}
+
+.workflow-pagination .swiper-pagination-bullet-active {
+  width: 48px;
+  background: #85ad20;
+}
