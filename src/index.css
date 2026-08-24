@@ -1,0 +1,90 @@
+@import url("https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap");
+
+@import "tailwindcss";
+
+@plugin "daisyui" {
+  themes: mytheme --default;
+}
+
+@plugin "daisyui/theme" {
+  name: "mytheme";
+  default: true;
+
+  --color-primary: #85ad20;
+  --color-primary-content: #ffffff;
+
+  --color-secondary: #062746;
+  --color-secondary-content: #ffffff;
+}
+
+* {
+  font-family: "Urbanist", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+
+
+/* ================================
+   StitchFlow Animations
+================================ */
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes grow {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes progress {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 76%;
+  }
+}
+
+
+/* ================================
+   Animation Utilities
+================================ */
+
+.animate-marquee {
+  animation: marquee 22s linear infinite;
+}
+
+.animate-grow {
+  animation: grow 1.2s ease-out forwards;
+}
+
+.animate-progress {
+  animation: progress 1.4s ease-out forwards;
+}
+
+
+/* ================================
+   Accessibility
+================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee,
+  .animate-grow,
+  .animate-progress {
+    animation: none;
+  }
+}

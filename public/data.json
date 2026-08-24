@@ -1,0 +1,152 @@
+[
+  {
+    "id": 1,
+    "name": "Rahim Ahmed",
+    "role": "Factory Manager",
+    "company": "ThreadWorks Ltd.",
+    "image": "https://i.pravatar.cc/150?img=12",
+    "quote": "StitchFlow gave our production team one place to see orders, progress and deadlines. We spend much less time checking spreadsheets.",
+    "metric": "32%",
+    "metricLabel": "less production delays"
+  },
+  {
+    "id": 2,
+    "name": "Nusrat Jahan",
+    "role": "Merchandising Manager",
+    "company": "Urban Stitch",
+    "image": "https://i.pravatar.cc/150?img=47",
+    "quote": "Keeping buyer orders and production information connected has made our daily workflow much easier. Everyone knows what needs attention.",
+    "metric": "40%",
+    "metricLabel": "faster order tracking"
+  },
+  {
+    "id": 3,
+    "name": "Tanvir Hasan",
+    "role": "Production Supervisor",
+    "company": "GarmentPro",
+    "image": "https://i.pravatar.cc/150?img=11",
+    "quote": "Our supervisors can quickly see what is happening across cutting, sewing and finishing without collecting updates from different teams.",
+    "metric": "24%",
+    "metricLabel": "better production visibility"
+  },
+  {
+    "id": 4,
+    "name": "Sadia Rahman",
+    "role": "Inventory Manager",
+    "company": "Fabric House",
+    "image": "https://i.pravatar.cc/150?img=32",
+    "quote": "Inventory tracking became much more organized. We can see material availability before it becomes a production problem.",
+    "metric": "28%",
+    "metricLabel": "fewer stock issues"
+  },
+  {
+    "id": 5,
+    "name": "Fahim Chowdhury",
+    "role": "Factory Owner",
+    "company": "NextWear",
+    "image": "https://i.pravatar.cc/150?img=68",
+    "quote": "StitchFlow gives me a much clearer picture of what is happening inside the factory. I can make decisions without waiting for reports.",
+    "metric": "3.2x",
+    "metricLabel": "more visibility"
+  },
+  {
+    "id": 6,
+    "name": "Mim Akter",
+    "role": "Production Coordinator",
+    "company": "BlueThread Garments",
+    "image": "https://i.pravatar.cc/150?img=44",
+    "quote": "Before StitchFlow, production updates were scattered across messages and spreadsheets. Now the entire team works from the same information.",
+    "metric": "45%",
+    "metricLabel": "less manual reporting"
+  },
+  {
+    "id": 7,
+    "name": "Arif Hossain",
+    "role": "Operations Manager",
+    "company": "Prime Apparel",
+    "image": "https://i.pravatar.cc/150?img=13",
+    "quote": "The production overview makes it much easier to identify delayed orders and assign attention where it is needed most.",
+    "metric": "35%",
+    "metricLabel": "faster issue detection"
+  },
+  {
+    "id": 8,
+    "name": "Tania Sultana",
+    "role": "Merchandiser",
+    "company": "StyleCraft BD",
+    "image": "https://i.pravatar.cc/150?img=49",
+    "quote": "Tracking buyer requirements and production deadlines together has made our communication with customers much more organized.",
+    "metric": "38%",
+    "metricLabel": "faster order updates"
+  },
+  {
+    "id": 9,
+    "name": "Mahmud Karim",
+    "role": "Factory Director",
+    "company": "Eastern Apparel",
+    "image": "https://i.pravatar.cc/150?img=51",
+    "quote": "I can finally get a quick overview of production without asking every department for a separate report.",
+    "metric": "60%",
+    "metricLabel": "less reporting time"
+  },
+  {
+    "id": 10,
+    "name": "Jannatul Ferdous",
+    "role": "Quality Manager",
+    "company": "CottonLine",
+    "image": "https://i.pravatar.cc/150?img=45",
+    "quote": "Having quality information connected with production makes it easier for our team to identify defects and follow up on rework.",
+    "metric": "27%",
+    "metricLabel": "faster quality follow-up"
+  },
+  {
+    "id": 11,
+    "name": "Sakib Hasan",
+    "role": "Inventory Supervisor",
+    "company": "EverWear Industries",
+    "image": "https://i.pravatar.cc/150?img=14",
+    "quote": "We have much better visibility into fabrics and accessories. The team can check stock before production starts instead of reacting later.",
+    "metric": "31%",
+    "metricLabel": "better stock visibility"
+  },
+  {
+    "id": 12,
+    "name": "Farzana Islam",
+    "role": "Production Manager",
+    "company": "Loom & Line",
+    "image": "https://i.pravatar.cc/150?img=48",
+    "quote": "The stage-by-stage production view helps us understand exactly where an order is and what needs to happen next.",
+    "metric": "29%",
+    "metricLabel": "better workflow control"
+  },
+  {
+    "id": 13,
+    "name": "Imran Kabir",
+    "role": "Factory Owner",
+    "company": "Vertex Clothing",
+    "image": "https://i.pravatar.cc/150?img=15",
+    "quote": "StitchFlow brings our production, inventory and order information together in a way that is easy for our managers to understand.",
+    "metric": "42%",
+    "metricLabel": "better team coordination"
+  },
+  {
+    "id": 14,
+    "name": "Samia Noor",
+    "role": "Operations Coordinator",
+    "company": "WearPoint",
+    "image": "https://i.pravatar.cc/150?img=25",
+    "quote": "The biggest improvement is visibility. Everyone can see the current status of production instead of relying on individual updates.",
+    "metric": "34%",
+    "metricLabel": "better status visibility"
+  },
+  {
+    "id": 15,
+    "name": "Rafiul Islam",
+    "role": "General Manager",
+    "company": "FashionHub Manufacturing",
+    "image": "https://i.pravatar.cc/150?img=59",
+    "quote": "StitchFlow helps our teams stay aligned from the initial order all the way through finishing and shipment.",
+    "metric": "36%",
+    "metricLabel": "better production alignment"
+  }
+]
