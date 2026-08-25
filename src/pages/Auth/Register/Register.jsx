@@ -3,9 +3,14 @@ import { Link } from "react-router";
 import { useForm, useWatch } from "react-hook-form";
 import { FaArrowRight, FaEye, FaEyeSlash, FaCamera } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
+import useAuth from "../../../hooks/useAuth";
+import axios from "axios";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const { createUser, updateUserProfile } = useAuth();
+  const axiosSecure = useAxiosSecure();
 
   const {
     register,
@@ -20,13 +25,43 @@ const Register = () => {
     ? URL.createObjectURL(selectedPhoto[0])
     : null;
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log(data);
 
-    // data.photo[0] -> selected image
-    // data.name
-    // data.email
-    // data.password
+    const name = data.name;
+    const email = data.email;
+    const password = data.password;
+    const profileImg = data.photo[0];
+
+    await createUser(email, password).then(() => {
+      // store image in formdata method
+      const formData = new FormData();
+      formData.append("image", profileImg);
+      // create link for post and post in axios method
+      const imagbbApi = `https://api.imgbb.com/1/upload?expiration=600&key=${import.meta.env.VITE_IMGBB_API_KEY}`;
+      axios.post(imagbbApi, formData).then((res) => {
+        const photoURL = res.data.data.url;
+
+        // create user in database
+        const userInfo = {
+          displayName: name,
+          email: email,
+          photoURL: photoURL,
+        };
+
+        const dbRes = axiosSecure.post("/users", userInfo);
+        if (dbRes.data.insertedId) {
+          console.log("User created in database");
+        }
+
+        // update user
+        updateUserProfile(name, photoURL)
+          .then(() => {})
+          .catch((error) => {
+            console.log(error.message);
+          });
+      });
+    });
   };
 
   const handleGoogleLogin = () => {

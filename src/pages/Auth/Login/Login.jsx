@@ -1,11 +1,15 @@
 import { useState } from "react";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import { FaArrowRight, FaEye, FaEyeSlash } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
+import useAuth from "../../../hooks/useAuth";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const { signInUser } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const {
     register,
@@ -14,9 +18,19 @@ const Login = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data);
-    // data.email
-    // data.password
+    // console.log(data);
+    const email = data.email;
+    const password = data.password;
+
+ 
+    signInUser(email, password)
+      .then(() => {
+        navigate(location?.state || "/");
+      })
+      .catch((error) => {
+        console.log(error.code);
+        console.log(error.message);
+      });
   };
 
   const handleGoogleLogin = () => {

@@ -1,5 +1,6 @@
 import { Link, NavLink } from "react-router";
 import logo from "../../../assets/logo.png";
+import useAuth from "../../../hooks/useAuth";
 
 const getLinkClass = ({ isActive }) =>
   `px-4 py-2 text-[15px] font-semibold rounded-full transition-all duration-200 ${
@@ -9,6 +10,7 @@ const getLinkClass = ({ isActive }) =>
   }`;
 
 const Navbar = () => {
+  const { user, logOut } = useAuth();
   const links = (
     <>
       <NavLink to="/" className={getLinkClass}>
@@ -28,6 +30,14 @@ const Navbar = () => {
       </NavLink>
     </>
   );
+
+  const handleSignOut = () => {
+    logOut()
+      .then(() => {})
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
 
   return (
     <header className="sticky top-0 z-50 border-b border-gray-100 bg-white/95 backdrop-blur-md">
@@ -59,23 +69,19 @@ const Navbar = () => {
 
         {/* Right Side */}
         <div className="navbar-end gap-3">
-          {/* Login */}
-          <Link
-            to="/login"
-            className="
-            hidden sm:inline-flex
-            bg-primary/10
-            px-5 py-2.5
-            rounded-full
-            text-base font-semibold
-            text-primary
-            transition-colors duration-300 ease-in-out
-            hover:bg-secondary
-            hover:text-white
-  "
-          >
-            Login
-          </Link>
+          {/* Login or Logout */}
+          {user ? (
+            <button onClick={handleSignOut} className="hidden sm:inline-flex bg-primary/10 px-5 py-2.5 rounded-full text-base font-semibold text-primary transition-colors duration-300 ease-in-out hover:bg-secondary hover:text-white">
+              Logout
+            </button>
+          ) : (
+            <Link
+              to="/login"
+              className="hidden sm:inline-flex bg-primary/10 px-5 py-2.5 rounded-full text-base font-semibold text-primary transition-colors duration-300 ease-in-out hover:bg-secondary hover:text-white"
+            >
+              Login
+            </Link>
+          )}
 
           {/* CTA */}
           <Link
