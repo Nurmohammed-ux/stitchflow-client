@@ -1,19 +1,27 @@
 import { useState } from "react";
 import { Link } from "react-router";
+import { useForm } from "react-hook-form";
 import { FaArrowRight, FaEye, FaEyeSlash } from "react-icons/fa6";
+import { FcGoogle } from "react-icons/fc";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleLogin = (e) => {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-    const form = e.target;
+  const onSubmit = (data) => {
+    console.log(data);
+    // data.email
+    // data.password
+  };
 
-    const email = form.email.value;
-    const password = form.password.value;
-
-    console.log({ email, password });
+  const handleGoogleLogin = () => {
+    // Add your Google auth integration logic here
+    console.log("Google login clicked");
   };
 
   return (
@@ -40,7 +48,7 @@ const Login = () => {
 
       {/* ================= FORM ================= */}
 
-      <form onSubmit={handleLogin} className="mt-10 space-y-5">
+      <form onSubmit={handleSubmit(onSubmit)} className="mt-10 space-y-5">
         {/* Email */}
 
         <div>
@@ -53,12 +61,23 @@ const Login = () => {
 
           <input
             id="email"
-            name="email"
             type="email"
             placeholder="you@company.com"
-            required
             className="w-full rounded-2xl border border-secondary/10 bg-white px-5 py-4 text-sm text-secondary outline-none transition-all placeholder:text-secondary/20 focus:border-primary focus:ring-4 focus:ring-primary/10"
+            {...register("email", {
+              required: "Email is required",
+              pattern: {
+                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                message: "Please enter a valid email address",
+              },
+            })}
           />
+
+          {errors.email && (
+            <p className="mt-2 text-xs font-medium text-red-500">
+              {errors.email.message}
+            </p>
+          )}
         </div>
 
         {/* Password */}
@@ -83,11 +102,16 @@ const Login = () => {
           <div className="relative">
             <input
               id="password"
-              name="password"
               type={showPassword ? "text" : "password"}
               placeholder="Enter your password"
-              required
               className="w-full rounded-2xl border border-secondary/10 bg-white px-5 py-4 pr-12 text-sm text-secondary outline-none transition-all placeholder:text-secondary/20 focus:border-primary focus:ring-4 focus:ring-primary/10"
+              {...register("password", {
+                required: "Password is required",
+                minLength: {
+                  value: 6,
+                  message: "Password must be at least 6 characters",
+                },
+              })}
             />
 
             <button
@@ -99,6 +123,12 @@ const Login = () => {
               {showPassword ? <FaEyeSlash size={15} /> : <FaEye size={15} />}
             </button>
           </div>
+
+          {errors.password && (
+            <p className="mt-2 text-xs font-medium text-red-500">
+              {errors.password.message}
+            </p>
+          )}
         </div>
 
         {/* Submit */}
@@ -138,6 +168,19 @@ const Login = () => {
         </span>
 
         <span className="h-px flex-1 bg-secondary/10" />
+      </div>
+
+      {/* ================= GOOGLE LOGIN BUTTON ================= */}
+
+      <div className="mt-6">
+        <button
+          type="button"
+          onClick={handleGoogleLogin}
+          className="flex w-full items-center justify-center gap-3 rounded-2xl border border-secondary/10 bg-white px-5 py-4 text-sm font-bold text-secondary transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:bg-primary/5 hover:shadow-lg hover:shadow-secondary/5"
+        >
+          <FcGoogle size={20} />
+          Continue with Google
+        </button>
       </div>
     </div>
   );

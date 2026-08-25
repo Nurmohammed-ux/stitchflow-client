@@ -1,24 +1,37 @@
 import { useState } from "react";
 import { Link } from "react-router";
-import { FaArrowRight, FaEye, FaEyeSlash } from "react-icons/fa6";
+import { useForm, useWatch } from "react-hook-form";
+import { FaArrowRight, FaEye, FaEyeSlash, FaCamera } from "react-icons/fa6";
+import { FcGoogle } from "react-icons/fc";
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleRegister = (e) => {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm();
 
-    const form = e.target;
+  const selectedPhoto = useWatch({ control, name: "photo" });
 
-    const name = form.name.value;
-    const email = form.email.value;
-    const password = form.password.value;
+  const photoPreview = selectedPhoto?.[0]
+    ? URL.createObjectURL(selectedPhoto[0])
+    : null;
 
-    console.log({
-      name,
-      email,
-      password,
-    });
+  const onSubmit = (data) => {
+    console.log(data);
+
+    // data.photo[0] -> selected image
+    // data.name
+    // data.email
+    // data.password
+  };
+
+  const handleGoogleLogin = () => {
+    // Add your Google auth integration logic here (e.g., Firebase, NextAuth, etc.)
+    console.log("Google login clicked");
   };
 
   return (
@@ -26,11 +39,13 @@ const Register = () => {
       {/* ================= HEADER ================= */}
 
       <div>
-        <p className="font-bold uppercase tracking-[0.25em] flex items-center gap-3">
+        <p className="flex items-center gap-3 font-bold uppercase tracking-[0.25em]">
           <span className="h-2 w-2 rounded-full bg-primary" />
+
           <span className="text-xs font-bold uppercase tracking-[0.3em] text-primary/50">
             Create account
           </span>
+
           <span className="hidden h-px w-20 bg-primary/60 sm:block" />
         </p>
 
@@ -45,8 +60,71 @@ const Register = () => {
 
       {/* ================= FORM ================= */}
 
-      <form onSubmit={handleRegister} className="mt-10 space-y-5">
-        {/* Name */}
+      <form onSubmit={handleSubmit(onSubmit)} className="mt-10 space-y-5">
+        {/* ================= PROFILE IMAGE ================= */}
+
+        <div className="flex justify-start">
+          <label
+            htmlFor="photo"
+            className="group relative flex h-28 w-28 cursor-pointer items-center justify-center overflow-hidden rounded-full border-2 border-dashed border-secondary/15 bg-white transition-all duration-300 hover:border-primary hover:bg-primary/5"
+          >
+            {photoPreview ? (
+              <img
+                src={photoPreview}
+                alt="Profile preview"
+                className="h-full w-full object-cover"
+              />
+            ) : (
+              <div className="flex flex-col items-center gap-2 text-secondary/30 transition-colors group-hover:text-primary">
+                <FaCamera size={22} />
+                <span className="text-[9px] font-bold uppercase tracking-[0.15em]">
+                  Photo
+                </span>
+              </div>
+            )}
+
+            {/* Hover overlay */}
+
+            {photoPreview && (
+              <div className="absolute inset-0 flex items-center justify-center bg-secondary/60 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                <FaCamera className="text-white" size={20} />
+              </div>
+            )}
+          </label>
+
+          <input
+            id="photo"
+            type="file"
+            accept="image/png,image/jpeg,image/webp"
+            className="hidden"
+            {...register("photo", {
+              required: "Profile image is required",
+              validate: {
+                fileType: (files) =>
+                  ["image/jpeg", "image/png", "image/webp"].includes(
+                    files?.[0]?.type,
+                  ) || "Only JPG, PNG or WEBP images are allowed",
+
+                fileSize: (files) =>
+                  !files?.[0] ||
+                  files[0].size <= 2 * 1024 * 1024 ||
+                  "Image must be less than 2MB",
+              },
+            })}
+          />
+        </div>
+
+        {errors.photo && (
+          <p className="text-center text-xs font-medium text-red-500">
+            {errors.photo.message}
+          </p>
+        )}
+
+        <p className="text-left text-sm text-secondary/30">
+          Upload a profile photo · Max 2MB
+        </p>
+
+        {/* ================= NAME ================= */}
 
         <div>
           <label
@@ -58,15 +136,26 @@ const Register = () => {
 
           <input
             id="name"
-            name="name"
             type="text"
             placeholder="Your full name"
-            required
             className="w-full rounded-2xl border border-secondary/10 bg-white px-5 py-4 text-sm text-secondary outline-none transition-all placeholder:text-secondary/20 focus:border-primary focus:ring-4 focus:ring-primary/10"
+            {...register("name", {
+              required: "Full name is required",
+              minLength: {
+                value: 3,
+                message: "Name must be at least 3 characters",
+              },
+            })}
           />
+
+          {errors.name && (
+            <p className="mt-2 text-xs font-medium text-red-500">
+              {errors.name.message}
+            </p>
+          )}
         </div>
 
-        {/* Email */}
+        {/* ================= EMAIL ================= */}
 
         <div>
           <label
@@ -78,15 +167,26 @@ const Register = () => {
 
           <input
             id="email"
-            name="email"
             type="email"
             placeholder="you@company.com"
-            required
             className="w-full rounded-2xl border border-secondary/10 bg-white px-5 py-4 text-sm text-secondary outline-none transition-all placeholder:text-secondary/20 focus:border-primary focus:ring-4 focus:ring-primary/10"
+            {...register("email", {
+              required: "Email is required",
+              pattern: {
+                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                message: "Please enter a valid email address",
+              },
+            })}
           />
+
+          {errors.email && (
+            <p className="mt-2 text-xs font-medium text-red-500">
+              {errors.email.message}
+            </p>
+          )}
         </div>
 
-        {/* Password */}
+        {/* ================= PASSWORD ================= */}
 
         <div>
           <label
@@ -99,11 +199,16 @@ const Register = () => {
           <div className="relative">
             <input
               id="password"
-              name="password"
               type={showPassword ? "text" : "password"}
               placeholder="Create a password"
-              required
               className="w-full rounded-2xl border border-secondary/10 bg-white px-5 py-4 pr-12 text-sm text-secondary outline-none transition-all placeholder:text-secondary/20 focus:border-primary focus:ring-4 focus:ring-primary/10"
+              {...register("password", {
+                required: "Password is required",
+                minLength: {
+                  value: 6,
+                  message: "Password must be at least 6 characters",
+                },
+              })}
             />
 
             <button
@@ -115,9 +220,15 @@ const Register = () => {
               {showPassword ? <FaEyeSlash size={15} /> : <FaEye size={15} />}
             </button>
           </div>
+
+          {errors.password && (
+            <p className="mt-2 text-xs font-medium text-red-500">
+              {errors.password.message}
+            </p>
+          )}
         </div>
 
-        {/* Submit */}
+        {/* ================= SUBMIT ================= */}
 
         <button
           type="submit"
@@ -154,6 +265,19 @@ const Register = () => {
         </span>
 
         <span className="h-px flex-1 bg-secondary/10" />
+      </div>
+
+      {/* ================= GOOGLE LOGIN BUTTON ================= */}
+
+      <div className="mt-6">
+        <button
+          type="button"
+          onClick={handleGoogleLogin}
+          className="flex w-full items-center justify-center gap-3 rounded-2xl border border-secondary/10 bg-white px-5 py-4 text-sm font-bold text-secondary transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:bg-primary/5 hover:shadow-lg hover:shadow-secondary/5"
+        >
+          <FcGoogle size={20} />
+          Continue with Google
+        </button>
       </div>
     </div>
   );
