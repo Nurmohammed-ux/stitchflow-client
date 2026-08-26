@@ -86,7 +86,7 @@ const Features = () => {
             </p>
           </div>
           <p className="mt-6 font-mono text-[10px] tracking-[0.25em] text-secondary/30">
-            SF / FEATURES / 002
+            SF / FEATURES / 004
           </p>
         </div>
 

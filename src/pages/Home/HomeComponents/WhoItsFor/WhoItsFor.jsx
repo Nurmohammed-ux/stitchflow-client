@@ -105,7 +105,7 @@ const WhoItsFor = () => {
             className="mt-6 font-mono text-[10px] tracking-[0.25em] text-secondary/30
             "
           >
-            SF / WHO IT'S FOR / 003
+            SF / WHO IT'S FOR / 005
           </p>
         </div>
 

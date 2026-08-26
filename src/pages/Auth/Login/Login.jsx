@@ -4,12 +4,14 @@ import { useForm } from "react-hook-form";
 import { FaArrowRight, FaEye, FaEyeSlash } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 import useAuth from "../../../hooks/useAuth";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const { signInUser } = useAuth();
+  const { signInUser, signInWithGoogle } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const axiosSecure = useAxiosSecure();
 
   const {
     register,
@@ -34,8 +36,27 @@ const Login = () => {
   };
 
   const handleGoogleLogin = () => {
-    // Add your Google auth integration logic here
+    // Add your Google auth integration logic here (e.g., Firebase, NextAuth, etc.)
     console.log("Google login clicked");
+
+    signInWithGoogle().then((result) => {
+      // create user in database
+      const userInfo = {
+        displayName: result.user.displayName,
+        email: result.user.email,
+        photoURL: result.user.photoURL,
+      };
+
+      axiosSecure
+        .post("/users", userInfo)
+        .then((res) => {
+          console.log("user data store in db", res.data);
+          navigate(location?.state || "/");
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+    });
   };
 
   return (

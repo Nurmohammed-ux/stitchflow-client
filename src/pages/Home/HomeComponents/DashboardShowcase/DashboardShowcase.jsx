@@ -79,7 +79,7 @@ const DashboardShowcase = () => {
           </div>
 
           <p className="mt-6 font-mono text-[10px] tracking-[0.25em] text-secondary/30">
-            SF / DASHBOARD / 003
+            SF / DASHBOARD / 006
           </p>
         </div>
 

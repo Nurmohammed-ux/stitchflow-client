@@ -146,7 +146,7 @@ const FAQ = () => {
                 text-secondary/30
               "
             >
-              SF / FAQ / 009
+              SF / FAQ / 010
             </p>
 
             {/* Small CTA */}

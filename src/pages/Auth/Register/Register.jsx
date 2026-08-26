@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { useForm, useWatch } from "react-hook-form";
 import { FaArrowRight, FaEye, FaEyeSlash, FaCamera } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
@@ -9,8 +9,10 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const { createUser, updateUserProfile } = useAuth();
+  const { createUser, updateUserProfile, signInWithGoogle } = useAuth();
   const axiosSecure = useAxiosSecure();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -50,13 +52,13 @@ const Register = () => {
         };
 
         const dbRes = axiosSecure.post("/users", userInfo);
-        if (dbRes.data.insertedId) {
+        if (dbRes.data) {
           console.log("User created in database");
         }
 
         // update user
         updateUserProfile(name, photoURL)
-          .then(() => {})
+          .then(() => navigate(location?.state || "/"))
           .catch((error) => {
             console.log(error.message);
           });
@@ -67,6 +69,25 @@ const Register = () => {
   const handleGoogleLogin = () => {
     // Add your Google auth integration logic here (e.g., Firebase, NextAuth, etc.)
     console.log("Google login clicked");
+
+    signInWithGoogle().then((result) => {
+      // create user in database
+      const userInfo = {
+        displayName: result.user.displayName,
+        email: result.user.email,
+        photoURL: result.user.photoURL,
+      };
+
+      axiosSecure
+        .post("/users", userInfo)
+        .then((res) => {
+          console.log("user data store in db", res.data);
+          navigate(location?.state || "/");
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+    });
   };
 
   return (

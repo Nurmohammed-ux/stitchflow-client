@@ -84,7 +84,7 @@ const Testimonials = () => {
           </div>
 
           <p className="font-mono text-[10px] tracking-[0.25em] text-secondary/30">
-            SF / TESTIMONIALS / 006
+            SF / TESTIMONIALS / 008
           </p>
         </div>
 

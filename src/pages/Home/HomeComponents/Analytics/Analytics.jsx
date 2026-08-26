@@ -50,7 +50,7 @@ const Analytics = () => {
           </div>
 
           <p className="mt-6 font-mono text-[10px] tracking-[0.25em] text-secondary/30">
-            SF / ANALYTICS / 004
+            SF / ANALYTICS / 007
           </p>
         </div>
 
