@@ -17,8 +17,8 @@ const Navbar = () => {
         Home
       </NavLink>
 
-      <NavLink to="/all-product" className={getLinkClass}>
-        All Product
+      <NavLink to="/all-products" className={getLinkClass}>
+        All Products
       </NavLink>
 
       <NavLink to="/about-us" className={getLinkClass}>

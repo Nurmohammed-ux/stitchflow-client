@@ -35,8 +35,8 @@ const ProductCard = ({ product, index }) => {
 
         {/* Category */}
 
-        <div className="absolute right-5 top-5 rounded-full bg-secondary px-3 py-1.5">
-          <span className="text-[9px] font-bold uppercase tracking-[0.15em] text-white">
+        <div className="absolute right-5 top-5 rounded-full bg-primary px-3 py-1.5">
+          <span className="text-xs font-bold uppercase tracking-[0.15em] text-white">
             {product.category}
           </span>
         </div>
@@ -83,7 +83,7 @@ const ProductCard = ({ product, index }) => {
           {/* Price */}
 
           <div>
-            <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-secondary/30">
+            <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-secondary">
               Starting price
             </p>
 
@@ -92,14 +92,14 @@ const ProductCard = ({ product, index }) => {
                 ৳{product.price?.toLocaleString()}
               </span>
 
-              <span className="text-xs text-secondary/30">/ unit</span>
+              <span className="text-xs text-secondary">/ unit</span>
             </div>
           </div>
 
           {/* Quantity */}
 
           <div className="text-right">
-            <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-secondary/30">
+            <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-secondary">
               Available
             </p>
 
@@ -112,7 +112,7 @@ const ProductCard = ({ product, index }) => {
         {/* Minimum Order */}
 
         <div className="mt-4 flex items-center justify-between rounded-xl bg-[#f8faf8] px-4 py-3">
-          <span className="text-xs text-secondary/40">Minimum order</span>
+          <span className="text-xs text-secondary">Minimum order</span>
 
           <span className="text-xs font-bold text-secondary">
             {product.minimumOrder?.toLocaleString() || 0} units

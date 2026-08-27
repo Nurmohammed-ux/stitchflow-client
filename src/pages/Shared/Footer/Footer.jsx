@@ -62,7 +62,7 @@ const Footer = () => {
             >
               <img
                 src={logo}
-                className="h-12 w-12 rounded-xl object-contain bg-primary p-1 shadow-md"
+                className="h-12 w-12 rounded-xl object-contain p-1 shadow-md"
                 alt="StitchFlow Logo"
               />
               <span>StitchFlow</span>

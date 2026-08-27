@@ -1,13 +1,15 @@
+import logo from "../../assets/logo.png"
+
 const Loading = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-white">
       <div className="flex flex-col items-center">
-        <div className="relative w-20 h-20 flex items-center justify-center">
-          <div className="absolute inset-0 rounded-full border-4 border-[#062746]/10" />
+        <div className="relative w-25 h-25 flex items-center justify-center">
+          <div className="absolute inset-0 rounded-full border-2 border-[#062746]/10" />
 
-          <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-[#85AD20] border-r-[#85AD20] animate-spin" />
+          <div className="absolute inset-0 rounded-full border-2 border-transparent border-t-[#85AD20] border-r-[#85AD20] animate-spin" />
 
-          <span className="text-3xl font-bold text-[#062746]">S</span>
+          <img src={logo} alt="StitchFlow" />
         </div>
 
         <h2 className="mt-4 text-2xl font-bold tracking-tight">

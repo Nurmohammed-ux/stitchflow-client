@@ -5,6 +5,8 @@ import Loading from "../components/Loading/Loading";
 import AuthLayout from "../layouts/AuthLayout";
 import Login from "../pages/Auth/Login/Login";
 import Register from "../pages/Auth/Register/Register";
+import AllProducts from "../pages/AllProducts/AllProducts";
+import ProductDetails from "../pages/ProductDetails/ProductDetails";
 
 const router = createBrowserRouter([
   {
@@ -16,6 +18,14 @@ const router = createBrowserRouter([
         index: true,
         element: <Home />,
       },
+      {
+        path: "all-products",
+        element: <AllProducts />
+      },
+      {
+        path: "products/:id",
+        element: <ProductDetails />
+      }
     ],
   },
   // Authentication
