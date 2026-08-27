@@ -28,6 +28,14 @@ const Navbar = () => {
       <NavLink to="/contact" className={getLinkClass}>
         Contact
       </NavLink>
+
+      {user && (
+        <>
+          <NavLink to="/dashboard" className={getLinkClass}>
+            Dashboard
+          </NavLink>
+        </>
+      )}
     </>
   );
 
@@ -71,7 +79,10 @@ const Navbar = () => {
         <div className="navbar-end gap-3">
           {/* Login or Logout */}
           {user ? (
-            <button onClick={handleSignOut} className="hidden sm:inline-flex bg-primary/10 px-5 py-2.5 rounded-full text-base font-semibold text-primary transition-colors duration-300 ease-in-out hover:bg-secondary hover:text-white">
+            <button
+              onClick={handleSignOut}
+              className="hidden sm:inline-flex bg-primary/10 px-5 py-2.5 rounded-full text-base font-semibold text-primary transition-colors duration-300 ease-in-out hover:bg-secondary hover:text-white"
+            >
               Logout
             </button>
           ) : (

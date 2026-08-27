@@ -9,6 +9,8 @@ import AllProducts from "../pages/AllProducts/AllProducts";
 import ProductDetails from "../pages/ProductDetails/ProductDetails";
 import Booking from "../pages/Booking/Booking";
 import DashboardLayout from "../layouts/DashboardLayout";
+import DashboardOverview from "../pages/Dashboard/DashboardOverview/DashboardOverview";
+import PrivateRoute from "./PrivateRoute";
 
 const router = createBrowserRouter([
   {
@@ -22,16 +24,24 @@ const router = createBrowserRouter([
       },
       {
         path: "all-products",
-        element: <AllProducts />
+        element: <AllProducts />,
       },
       {
         path: "products/:id",
-        element: <ProductDetails />
+        element: (
+          <PrivateRoute>
+            <ProductDetails />
+          </PrivateRoute>
+        ),
       },
       {
         path: "booking/:id",
-        element: <Booking />
-      }
+        element: (
+          <PrivateRoute>
+            <Booking />
+          </PrivateRoute>
+        ),
+      },
     ],
   },
   // Authentication
@@ -41,18 +51,29 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/login",
-        element: <Login />
+        element: <Login />,
       },
       {
         path: "/register",
-        element: <Register />
-      }
-    ]
+        element: <Register />,
+      },
+    ],
   },
+  // Dashboard
   {
     path: "dashboard",
-    element: <DashboardLayout />
-  }
+    element: (
+      <PrivateRoute>
+        <DashboardLayout />
+      </PrivateRoute>
+    ),
+    children: [
+      {
+        index: true,
+        element: <DashboardOverview />,
+      },
+    ],
+  },
 ]);
 
 export default router;

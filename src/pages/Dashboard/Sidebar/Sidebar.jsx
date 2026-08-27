@@ -9,13 +9,15 @@ import {
   FaBars,
   FaXmark,
   FaRegUser,
+  FaPlus,
+  FaClock,
 } from "react-icons/fa6";
+import { FaCheckCircle } from "react-icons/fa";
 import { useState } from "react";
-import { FaBoxes, FaCog } from "react-icons/fa";
-import logo from "../../../assets/logo.png"
+import logo from "../../../assets/logo.png";
 import useAuth from "../../../hooks/useAuth";
 
-const menuItems = [
+const buyerItems = [
   {
     title: "Overview",
     path: "/dashboard",
@@ -27,40 +29,60 @@ const menuItems = [
     icon: FaClipboardList,
   },
   {
-    title: "Track Orders",
-    path: "/dashboard/tracking",
+    title: "Track Order",
+    path: "/dashboard/track-order",
     icon: FaTruck,
   },
 ];
 
 const managerItems = [
   {
-    title: "Products",
-    path: "/dashboard/products",
+    title: "Overview",
+    path: "/dashboard",
+    icon: FaChartPie,
+  },
+  {
+    title: "Add Product",
+    path: "/dashboard/add-product",
+    icon: FaPlus,
+  },
+  {
+    title: "Manage Products",
+    path: "/dashboard/manage-products",
     icon: FaBoxOpen,
   },
   {
-    title: "Orders",
-    path: "/dashboard/orders",
-    icon: FaClipboardList,
+    title: "Pending Orders",
+    path: "/dashboard/pending-orders",
+    icon: FaClock,
   },
   {
-    title: "Inventory",
-    path: "/dashboard/inventory",
-    icon: FaBoxes,
+    title: "Approved Orders",
+    path: "/dashboard/approved-orders",
+    icon: FaCheckCircle,
   },
 ];
 
 const adminItems = [
   {
-    title: "Users",
-    path: "/dashboard/users",
+    title: "Overview",
+    path: "/dashboard",
+    icon: FaChartPie,
+  },
+  {
+    title: "Manage Users",
+    path: "/dashboard/manage-users",
     icon: FaUsers,
   },
   {
-    title: "Settings",
-    path: "/dashboard/settings",
-    icon: FaCog,
+    title: "All Products",
+    path: "/dashboard/all-products",
+    icon: FaBoxOpen,
+  },
+  {
+    title: "All Orders",
+    path: "/dashboard/all-orders",
+    icon: FaClipboardList,
   },
 ];
 
@@ -76,6 +98,32 @@ const Sidebar = () => {
     }`;
 
   const closeSidebar = () => setOpen(false);
+
+  /*
+    Change this according to the field returned
+    from your backend.
+
+    Example:
+    user.role === "admin"
+    user.role === "manager"
+    user.role === "buyer"
+  */
+
+  const role = user?.role || "buyer";
+
+  const navItems =
+    role === "admin"
+      ? adminItems
+      : role === "manager"
+        ? managerItems
+        : buyerItems;
+
+  const roleLabel =
+    role === "admin"
+      ? "Administrator"
+      : role === "manager"
+        ? "Production Manager"
+        : "Buyer";
 
   return (
     <>
@@ -100,7 +148,7 @@ const Sidebar = () => {
 
         <button
           onClick={() => setOpen(true)}
-          className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-white"
+          className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-secondary"
           aria-label="Open dashboard menu"
         >
           <FaBars size={16} />
@@ -174,7 +222,7 @@ const Sidebar = () => {
                 </p>
 
                 <p className="text-xs text-secondary/40">
-                  Production workspace
+                  {roleLabel}
                 </p>
               </div>
             </div>
@@ -184,15 +232,17 @@ const Sidebar = () => {
         {/* ================= NAVIGATION ================= */}
 
         <div className="flex-1 overflow-y-auto px-5 py-6">
-          {/* Main */}
-
           <div>
             <p className="mb-3 px-3 font-mono text-[9px] font-bold uppercase tracking-[0.25em] text-secondary/30">
-              Main Menu
+              {role === "admin"
+                ? "Administration"
+                : role === "manager"
+                  ? "Management"
+                  : "Main Menu"}
             </p>
 
             <nav className="space-y-1">
-              {menuItems.map((item) => {
+              {navItems.map((item) => {
                 const Icon = item.icon;
 
                 return (
@@ -215,57 +265,23 @@ const Sidebar = () => {
             </nav>
           </div>
 
-          {/* Manager */}
+          {/* ================= ACCOUNT ================= */}
 
           <div className="mt-8">
             <p className="mb-3 px-3 font-mono text-[9px] font-bold uppercase tracking-[0.25em] text-secondary/30">
-              Management
+              Account
             </p>
 
             <nav className="space-y-1">
-              {managerItems.map((item) => {
-                const Icon = item.icon;
+              <NavLink
+                to="/dashboard/profile"
+                onClick={closeSidebar}
+                className={getNavClass}
+              >
+                <FaRegUser size={15} />
 
-                return (
-                  <NavLink
-                    key={item.path}
-                    to={item.path}
-                    onClick={closeSidebar}
-                    className={getNavClass}
-                  >
-                    <Icon size={15} />
-
-                    <span>{item.title}</span>
-                  </NavLink>
-                );
-              })}
-            </nav>
-          </div>
-
-          {/* Admin */}
-
-          <div className="mt-8">
-            <p className="mb-3 px-3 font-mono text-[9px] font-bold uppercase tracking-[0.25em] text-secondary/30">
-              Administration
-            </p>
-
-            <nav className="space-y-1">
-              {adminItems.map((item) => {
-                const Icon = item.icon;
-
-                return (
-                  <NavLink
-                    key={item.path}
-                    to={item.path}
-                    onClick={closeSidebar}
-                    className={getNavClass}
-                  >
-                    <Icon size={15} />
-
-                    <span>{item.title}</span>
-                  </NavLink>
-                );
-              })}
+                <span>My Profile</span>
+              </NavLink>
             </nav>
           </div>
         </div>
@@ -275,12 +291,20 @@ const Sidebar = () => {
         <div className="border-t border-secondary/10 p-5">
           <div className="flex items-center gap-3 rounded-2xl bg-secondary p-3">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-bold text-secondary">
-             <FaRegUser />
+              {user?.photoURL ? (
+                <img
+                  src={user.photoURL}
+                  alt={user?.displayName || "User"}
+                  className="h-full w-full rounded-full object-cover"
+                />
+              ) : (
+                <FaRegUser />
+              )}
             </div>
 
             <div className="min-w-0 flex-1">
               <p className="truncate text-sm font-bold text-white">
-                {user?.displayName}
+                {user?.displayName || "User"}
               </p>
 
               <p className="truncate text-[10px] text-white/40">
