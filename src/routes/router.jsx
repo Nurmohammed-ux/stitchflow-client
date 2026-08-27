@@ -7,6 +7,8 @@ import Login from "../pages/Auth/Login/Login";
 import Register from "../pages/Auth/Register/Register";
 import AllProducts from "../pages/AllProducts/AllProducts";
 import ProductDetails from "../pages/ProductDetails/ProductDetails";
+import Booking from "../pages/Booking/Booking";
+import DashboardLayout from "../layouts/DashboardLayout";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +27,10 @@ const router = createBrowserRouter([
       {
         path: "products/:id",
         element: <ProductDetails />
+      },
+      {
+        path: "booking/:id",
+        element: <Booking />
       }
     ],
   },
@@ -42,6 +48,10 @@ const router = createBrowserRouter([
         element: <Register />
       }
     ]
+  },
+  {
+    path: "dashboard",
+    element: <DashboardLayout />
   }
 ]);
 
