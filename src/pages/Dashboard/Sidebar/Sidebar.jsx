@@ -16,6 +16,8 @@ import { FaCheckCircle } from "react-icons/fa";
 import { useState } from "react";
 import logo from "../../../assets/logo.png";
 import useAuth from "../../../hooks/useAuth";
+import useRole from "../../../hooks/useRole";
+import Loading from "../../../components/Loading/Loading"
 
 const buyerItems = [
   {
@@ -89,6 +91,7 @@ const adminItems = [
 const Sidebar = () => {
   const [open, setOpen] = useState(false);
   const { user } = useAuth();
+  const { role, roleLoading } = useRole();
 
   const getNavClass = ({ isActive }) =>
     `group flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold transition-all duration-300 ${
@@ -99,17 +102,6 @@ const Sidebar = () => {
 
   const closeSidebar = () => setOpen(false);
 
-  /*
-    Change this according to the field returned
-    from your backend.
-
-    Example:
-    user.role === "admin"
-    user.role === "manager"
-    user.role === "buyer"
-  */
-
-  const role = user?.role || "buyer";
 
   const navItems =
     role === "admin"
@@ -124,6 +116,10 @@ const Sidebar = () => {
       : role === "manager"
         ? "Production Manager"
         : "Buyer";
+
+  if(roleLoading) {
+    return <Loading />
+  }      
 
   return (
     <>

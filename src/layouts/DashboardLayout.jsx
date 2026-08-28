@@ -7,7 +7,7 @@ const DashboardLayout = () => {
     <div className="min-h-screen bg-[#f8faf8] container mx-auto text-secondary">
       <Sidebar />
 
-      <main className="min-h-screen lg:ml-22">
+      <main className="min-h-screen lg:ml-25">
         <div className="px-5 py-6 md:px-8 lg:px-10">
           <Outlet />
         </div>

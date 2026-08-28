@@ -1,16 +1,16 @@
-import useAuth from "../../../hooks/useAuth";
 import UserDashboard from "../DashboardHome/UserDashboard";
-import AdminOverview from "../DashboardHome/AdminOverview"
-import ManagerOverview from "../DashboardHome/ManagerOverview"
+import AdminOverview from "../DashboardHome/AdminOverview";
+import ManagerOverview from "../DashboardHome/ManagerOverview";
+import useRole from "../../../hooks/useRole";
 
 const DashboardOverview = () => {
-  const { user } = useAuth();
+  const { role } = useRole();
 
-  if (user?.role === "admin") {
+  if (role === "admin") {
     return <AdminOverview />;
   }
 
-  if (user?.role === "manager") {
+  if (role === "manager") {
     return <ManagerOverview />;
   }
 

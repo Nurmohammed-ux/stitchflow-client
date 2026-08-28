@@ -11,6 +11,7 @@ import Booking from "../pages/Booking/Booking";
 import DashboardLayout from "../layouts/DashboardLayout";
 import DashboardOverview from "../pages/Dashboard/DashboardOverview/DashboardOverview";
 import PrivateRoute from "./PrivateRoute";
+import ManageUsers from "../pages/Dashboard/ManageUsers/ManageUsers";
 
 const router = createBrowserRouter([
   {
@@ -72,6 +73,10 @@ const router = createBrowserRouter([
         index: true,
         element: <DashboardOverview />,
       },
+      {
+        path: "manage-users",
+        element: <ManageUsers />
+      }
     ],
   },
 ]);

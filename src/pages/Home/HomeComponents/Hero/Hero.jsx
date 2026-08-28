@@ -83,13 +83,15 @@ const Hero = () => {
               </span>
             </h1>
 
-            <p className="mt-10 max-w-xl text-base leading-relaxed text-secondary/60 md:text-lg">
-              Manage buyer orders, track production, control inventory and keep
-              every garment moving toward its deadline — all from one
-              intelligent workspace.
+            <p className="mt-10 text-base leading-relaxed text-secondary/60 md:text-lg">
+              Manage buyer orders, track production, control{" "}
+              <br className="inline md:hidden" /> inventory and keep every
+              garment moving <br className="inline md:hidden" /> toward its
+              deadline — all from one intelligent{" "}
+              <br className="inline md:hidden" /> workspace.
             </p>
 
-            <div className="mt-8 flex flex-wrap items-center gap-3">
+            <div className="mt-8 flex flex-col md:flex-row md:items-center items-start ml-10 md:ml-0 gap-3">
               <button className="group flex items-center gap-3 rounded-full bg-secondary px-6 py-3.5 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#0b355c]">
                 Start managing production
                 <span className="flex h-7 w-7 items-center justify-center rounded-full bg-primary text-secondary transition-transform duration-300 group-hover:rotate-45">
@@ -97,7 +99,7 @@ const Hero = () => {
                 </span>
               </button>
 
-              <button className="group flex items-center gap-3 rounded-full border border-secondary/15 bg-white px-6 py-3.5 text-sm font-semibold text-secondary transition-all duration-300 hover:-translate-y-0.5 hover:border-secondary/30">
+              <button className="group flex items-center gap-3 rounded-full border border-secondary/15 bg-white px-6 py-3.5 text-sm font-semibold text-secondary transition-all duration-300 hover:-translate-y-0.5 hover:border-secondary/30 ml-8 md:ml-0">
                 <span className="flex h-7 w-7 items-center justify-center rounded-full bg-secondary/5 transition-all group-hover:bg-primary">
                   <FaPlay size={9} />
                 </span>
@@ -117,7 +119,7 @@ const Hero = () => {
           </div>
 
           {/* RIGHT IMAGE (SWIPER JS CAROUSEL) */}
-          <div className="relative mx-auto w-full max-w-150 lg:mx-0">
+          <div className="relative mx-auto w-full max-w-80 md:max-w-150 lg:mx-0">
             <div className="group relative overflow-hidden rounded-[2.5rem] border border-secondary/10 bg-secondary shadow-2xl shadow-secondary/15">
               <Swiper
                 modules={[Autoplay, EffectFade]}
@@ -178,7 +180,7 @@ const Hero = () => {
             </div>
 
             {/* FLOATING PRODUCTION CARD */}
-            <div className="absolute -left-5 top-8 w-48 rounded-2xl border border-secondary/10 bg-white p-4 shadow-xl shadow-secondary/10 md:-left-8 md:w-52 z-20">
+            <div className="absolute -left-5 -top-8 md:top-8 w-48 rounded-2xl border border-secondary/10 bg-white p-4 shadow-xl shadow-secondary/10 md:-left-8 md:w-52 z-20">
               <div className="flex items-center justify-between">
                 <span className="text-[9px] font-bold uppercase tracking-[0.15em] text-secondary/40">
                   Live production
