@@ -12,6 +12,7 @@ import DashboardLayout from "../layouts/DashboardLayout";
 import DashboardOverview from "../pages/Dashboard/DashboardOverview/DashboardOverview";
 import PrivateRoute from "./PrivateRoute";
 import ManageUsers from "../pages/Dashboard/ManageUsers/ManageUsers";
+import DashboardAllProducts from "../pages/Dashboard/DashboardAllProducts/DashboardAllProducts";
 
 const router = createBrowserRouter([
   {
@@ -76,6 +77,10 @@ const router = createBrowserRouter([
       {
         path: "manage-users",
         element: <ManageUsers />
+      },
+      {
+        path: "all-products",
+        element: <DashboardAllProducts />
       }
     ],
   },
