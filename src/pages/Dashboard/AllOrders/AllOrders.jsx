@@ -10,9 +10,9 @@ import {
   FaCircleXmark,
   FaMoneyBillWave,
 } from "react-icons/fa6";
-import useAxiosSecure from "../../../hooks/UseAxiosSecure";
 import useAuth from "../../../hooks/useAuth";
 import Loading from "../../../components/Loading/Loading";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const AllOrders = () => {
   const axiosSecure = useAxiosSecure();
