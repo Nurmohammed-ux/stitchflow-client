@@ -17,7 +17,7 @@ import { useState } from "react";
 import logo from "../../../assets/logo.png";
 import useAuth from "../../../hooks/useAuth";
 import useRole from "../../../hooks/useRole";
-import Loading from "../../../components/Loading/Loading"
+import Loading from "../../../components/Loading/Loading";
 
 const buyerItems = [
   {
@@ -90,8 +90,16 @@ const adminItems = [
 
 const Sidebar = () => {
   const [open, setOpen] = useState(false);
-  const { user } = useAuth();
+  const { user, logOut } = useAuth();
   const { role, roleLoading } = useRole();
+
+  const handleLogOut = () => {
+    logOut()
+      .then(() => {})
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
 
   const getNavClass = ({ isActive }) =>
     `group flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold transition-all duration-300 ${
@@ -101,7 +109,6 @@ const Sidebar = () => {
     }`;
 
   const closeSidebar = () => setOpen(false);
-
 
   const navItems =
     role === "admin"
@@ -117,9 +124,9 @@ const Sidebar = () => {
         ? "Production Manager"
         : "Buyer";
 
-  if(roleLoading) {
-    return <Loading />
-  }      
+  if (roleLoading) {
+    return <Loading />;
+  }
 
   return (
     <>
@@ -217,9 +224,7 @@ const Sidebar = () => {
                   StitchFlow Factory
                 </p>
 
-                <p className="text-xs text-secondary/40">
-                  {roleLabel}
-                </p>
+                <p className="text-xs text-secondary/40">{roleLabel}</p>
               </div>
             </div>
           </div>
@@ -309,7 +314,8 @@ const Sidebar = () => {
             </div>
 
             <button
-              className="flex h-8 w-8 items-center justify-center rounded-lg text-white/40 transition-colors hover:bg-white/10 hover:text-primary"
+              onClick={handleLogOut}
+              className="flex h-8 w-8 items-center justify-center rounded-lg text-white/40 transition-colors hover:bg-primary hover:text-secondary"
               title="Logout"
             >
               <FaArrowRightFromBracket size={13} />
