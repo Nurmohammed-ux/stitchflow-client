@@ -172,7 +172,7 @@ const Features = () => {
 
                 {/* Decorative corner */}
                 <div
-                  className="absolute -bottom-20 -right-20 h-40 w-40 rounded-full bg-secondary /5 transition-transform duration-700 group-hover:scale-150
+                  className="absolute -bottom-20 -right-20 h-40 w-40 rounded-full bg-secondary/5 transition-transform duration-700 group-hover:scale-150
                   "
                 />
               </article>

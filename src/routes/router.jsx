@@ -15,12 +15,16 @@ import ManageUsers from "../pages/Dashboard/ManageUsers/ManageUsers";
 import DashboardAllProducts from "../pages/Dashboard/DashboardAllProducts/DashboardAllProducts";
 import AllOrders from "../pages/Dashboard/AllOrders/AllOrders";
 import OrderDetails from "../pages/Dashboard/OrderDetails/OrderDetails";
+import AboutUs from "../pages/AboutUs/AboutUs";
+import ErrorPage from "../components/ErrorPage/ErrorPage";
+import Contact from "../pages/Contact/Contact";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
     hydrateFallbackElement: <Loading />,
+    errorElement: <ErrorPage />,
     children: [
       {
         index: true,
@@ -46,6 +50,14 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
+      {
+        path: "about-us",
+        element: <AboutUs />,
+      },
+      {
+        path: "contact",
+        element: <Contact />
+      }
     ],
   },
   // Authentication
@@ -78,20 +90,20 @@ const router = createBrowserRouter([
       },
       {
         path: "manage-users",
-        element: <ManageUsers />
+        element: <ManageUsers />,
       },
       {
         path: "all-products",
-        element: <DashboardAllProducts />
+        element: <DashboardAllProducts />,
       },
       {
         path: "all-orders",
-        element: <AllOrders />
+        element: <AllOrders />,
       },
       {
         path: "order-details/:id",
-        element: <OrderDetails />
-      }
+        element: <OrderDetails />,
+      },
     ],
   },
 ]);

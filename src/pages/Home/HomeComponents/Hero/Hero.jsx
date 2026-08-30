@@ -42,6 +42,10 @@ const Hero = () => {
   const [swiperRef, setSwiperRef] = useState(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
+  // Text split into characters for staggered letter-by-letter appearance
+  const titlePart1 = "Production ";
+  const titlePart2 = "without chaos.";
+
   return (
     <div className="relative overflow-hidden bg-[#f8faf8]">
       {/* BACKGROUND GRID */}
@@ -71,15 +75,33 @@ const Hero = () => {
               <span className="hidden h-px w-16 bg-primary/50 sm:block" />
             </div>
 
-            <h1 className="max-w-4xl text-[clamp(3.6rem,7vw,7.5rem)] font-bold leading-[0.84] tracking-[-0.065em] text-secondary">
-              Production
-              <br />
-              <span className="relative inline-block">
-                without
-                <span className="relative ml-3 inline-block text-primary">
-                  chaos.
-                  <span className="absolute -bottom-3 left-0 h-1 w-[85%] origin-left bg-primary" />
-                </span>
+            <h1 className="max-w-4xl text-[clamp(3.6rem,7vw,7.5rem)] font-bold leading-[0.84] tracking-[-0.065em] text-secondary flex flex-wrap">
+              {/* First Part: Production */}
+              <span className="inline-flex overflow-hidden">
+                {titlePart1.split("").map((char, index) => (
+                  <span
+                    key={`p1-${index}`}
+                    className="inline-block animate-[fadeInLetter_0.4s_ease-out_forwards] opacity-0"
+                    style={{ animationDelay: `${index * 0.04}s` }}
+                  >
+                    {char === " " ? "\u00A0" : char}
+                  </span>
+                ))}
+              </span>
+
+              {/* Second Part: without chaos. */}
+              <span className="inline-flex overflow-hidden text-primary ml-3 relative">
+                {titlePart2.split("").map((char, index) => (
+                  <span
+                    key={`p2-${index}`}
+                    className="inline-block animate-[fadeInLetter_0.4s_ease-out_forwards] opacity-0"
+                    style={{
+                      animationDelay: `${(titlePart1.length + index) * 0.04}s`,
+                    }}
+                  >
+                    {char === " " ? "\u00A0" : char}
+                  </span>
+                ))}
               </span>
             </h1>
 
@@ -162,7 +184,7 @@ const Hero = () => {
                 ))}
               </Swiper>
 
-              {/* Custom Interactive Pagination Bullets (Moved to bottom-left to avoid conflict) */}
+              {/* Custom Interactive Pagination Bullets */}
               <div className="absolute bottom-6 left-6 z-30 flex items-center gap-2">
                 {heroImages.map((_, idx) => (
                   <button
@@ -234,6 +256,7 @@ const Hero = () => {
           </div>
         </div>
       </div>
+
       {/* PROCESS MARQUEE */}
       <div className="relative overflow-hidden border-y border-secondary/10 bg-white">
         <div className="pointer-events-none absolute left-0 top-0 z-20 h-full w-16 bg-linear-to-r from-white to-transparent md:w-24" />
@@ -270,6 +293,20 @@ const Hero = () => {
           </div>
         </div>
       </div>
+
+      {/* Tailwind Keyframe Animation Injection for Letter Reveal */}
+      <style>{`
+        @keyframes fadeInLetter {
+          0% {
+            opacity: 0;
+            transform: translateY(15px);
+          }
+          100% {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
     </div>
   );
 };
