@@ -22,6 +22,8 @@ import AddProduct from "../pages/Dashboard/Manager/AddProduct";
 import ManageProducts from "../pages/Dashboard/Manager/ManageProducts";
 import PendingOrders from "../pages/Dashboard/Manager/PendingOrders";
 import ApprovedOrders from "../pages/Dashboard/Manager/ApprovedOrders";
+import AdminRoute from "./AdminRoute";
+import ManagerRoute from "./ManagerRoute";
 
 const router = createBrowserRouter([
   {
@@ -60,8 +62,8 @@ const router = createBrowserRouter([
       },
       {
         path: "contact",
-        element: <Contact />
-      }
+        element: <Contact />,
+      },
     ],
   },
   // Authentication
@@ -92,38 +94,68 @@ const router = createBrowserRouter([
         index: true,
         element: <DashboardOverview />,
       },
+      // admin
       {
         path: "manage-users",
-        element: <ManageUsers />,
+        element: (
+          <AdminRoute>
+            <ManageUsers />
+          </AdminRoute>
+        ),
       },
       {
         path: "all-products",
-        element: <DashboardAllProducts />,
+        element: (
+          <AdminRoute>
+            <DashboardAllProducts />
+          </AdminRoute>
+        ),
       },
       {
         path: "all-orders",
-        element: <AllOrders />,
+        element: (
+          <AdminRoute>
+            <AllOrders />
+          </AdminRoute>
+        ),
       },
       {
         path: "order-details/:id",
         element: <OrderDetails />,
       },
+      // manager
       {
         path: "add-product",
-        element: <AddProduct />
+        element: (
+          <ManagerRoute>
+            <AddProduct />
+          </ManagerRoute>
+        ),
       },
       {
         path: "manage-products",
-        element: <ManageProducts />
+        element: (
+          <ManagerRoute>
+            <ManageProducts />
+          </ManagerRoute>
+        ),
       },
       {
         path: "pending-orders",
-        element: <PendingOrders />
+        element: (
+          <ManagerRoute>
+            <PendingOrders />
+          </ManagerRoute>
+        ),
       },
       {
         path: "approved-orders",
-        element: <ApprovedOrders />
-      }
+        element: (
+          <ManagerRoute>
+            <ApprovedOrders />
+          </ManagerRoute>
+        ),
+      },
     ],
   },
 ]);
