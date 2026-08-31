@@ -22,12 +22,13 @@ import {
 } from "react-icons/fa6";
 import { Link } from "react-router";
 import useAuth from "../../../hooks/useAuth";
-import UseAxiosSecure from "../../../hooks/UseAxiosSecure";
+
 import Loading from "../../../components/Loading/Loading";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const AdminOverview = () => {
   const { user } = useAuth();
-  const axiosSecure = UseAxiosSecure();
+  const axiosSecure = useAxiosSecure();
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ["admin-dashboard", user?.email],

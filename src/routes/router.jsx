@@ -18,6 +18,7 @@ import OrderDetails from "../pages/Dashboard/OrderDetails/OrderDetails";
 import AboutUs from "../pages/AboutUs/AboutUs";
 import ErrorPage from "../components/ErrorPage/ErrorPage";
 import Contact from "../pages/Contact/Contact";
+import AddProduct from "../pages/Dashboard/Manager/AddProduct";
 
 const router = createBrowserRouter([
   {
@@ -104,6 +105,10 @@ const router = createBrowserRouter([
         path: "order-details/:id",
         element: <OrderDetails />,
       },
+      {
+        path: "add-product",
+        element: <AddProduct />
+      }
     ],
   },
 ]);

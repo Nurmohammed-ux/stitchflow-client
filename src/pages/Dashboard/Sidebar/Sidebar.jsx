@@ -38,26 +38,14 @@ const buyerItems = [
 ];
 
 const managerItems = [
-  {
-    title: "Overview",
-    path: "/dashboard",
-    icon: FaChartPie,
-  },
-  {
-    title: "Add Product",
-    path: "/dashboard/add-product",
-    icon: FaPlus,
-  },
+  { title: "Overview", path: "/dashboard", icon: FaChartPie },
+  { title: "Add Product", path: "/dashboard/add-product", icon: FaPlus },
   {
     title: "Manage Products",
     path: "/dashboard/manage-products",
     icon: FaBoxOpen,
   },
-  {
-    title: "Pending Orders",
-    path: "/dashboard/pending-orders",
-    icon: FaClock,
-  },
+  { title: "Pending Orders", path: "/dashboard/pending-orders", icon: FaClock },
   {
     title: "Approved Orders",
     path: "/dashboard/approved-orders",
