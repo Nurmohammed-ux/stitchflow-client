@@ -129,7 +129,7 @@ const PendingOrders = () => {
         orderStatus: "rejected",
       });
 
-      if (res.data.modifiedCount > 0) {
+      if (res.data.success || res.data.result?.modifiedCount > 0) {
         await refetch();
 
         if (selectedOrder?._id === order._id) {

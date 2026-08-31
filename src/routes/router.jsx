@@ -21,6 +21,7 @@ import Contact from "../pages/Contact/Contact";
 import AddProduct from "../pages/Dashboard/Manager/AddProduct";
 import ManageProducts from "../pages/Dashboard/Manager/ManageProducts";
 import PendingOrders from "../pages/Dashboard/Manager/PendingOrders";
+import ApprovedOrders from "../pages/Dashboard/Manager/ApprovedOrders";
 
 const router = createBrowserRouter([
   {
@@ -118,6 +119,10 @@ const router = createBrowserRouter([
       {
         path: "pending-orders",
         element: <PendingOrders />
+      },
+      {
+        path: "approved-orders",
+        element: <ApprovedOrders />
       }
     ],
   },
