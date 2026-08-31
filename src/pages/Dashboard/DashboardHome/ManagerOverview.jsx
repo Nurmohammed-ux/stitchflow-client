@@ -334,13 +334,16 @@ const ManagerOverview = () => {
       {/* ================= QUICK ACTIONS ================= */}
 
       <div className="mt-6 grid gap-5 md:grid-cols-3">
+        {/* Card 1: Add New Product (Dark Theme Variant) */}
         <Link
           to="/dashboard/add-product"
-          className="group rounded-3xl bg-secondary p-6 text-white transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border hover:border-primary/50"
+          className="group rounded-3xl bg-secondary p-6 text-white transition-all duration-300 hover:-translate-y-1 hover:border hover:border-primary/50 hover:shadow-xl hover:shadow-secondary/5"
         >
-          <FaBoxOpen className="text-primary" size={22} />
+          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-primary transition-all duration-300 group-hover:bg-primary group-hover:text-secondary">
+            <FaBoxOpen size={17} />
+          </div>
 
-          <h3 className="mt-5 text-lg font-bold">Add New Product</h3>
+          <h3 className="mt-8 text-lg font-bold">Add New Product</h3>
 
           <p className="mt-1 text-sm text-white/40">
             Create a new garment product.
@@ -355,13 +358,16 @@ const ManagerOverview = () => {
           </div>
         </Link>
 
+        {/* Card 2: Pending Orders */}
         <Link
           to="/dashboard/pending-orders"
-          className="group rounded-3xl border border-secondary/10 bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border hover:border-primary/50"
+          className="group rounded-3xl border border-secondary/10 bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-primary/50 hover:shadow-xl hover:shadow-secondary/5"
         >
-          <FaClock className="text-secondary" size={22} />
+          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-secondary/5 text-secondary transition-all duration-300 group-hover:bg-primary group-hover:text-secondary">
+            <FaClock size={17} />
+          </div>
 
-          <h3 className="mt-5 text-lg font-bold text-secondary">
+          <h3 className="mt-8 text-lg font-bold text-secondary">
             Pending Orders
           </h3>
 
@@ -378,13 +384,16 @@ const ManagerOverview = () => {
           </div>
         </Link>
 
+        {/* Card 3: Production Orders */}
         <Link
           to="/dashboard/approved-orders"
-          className="group rounded-3xl border border-secondary/10 bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border hover:border-primary/50"
+          className="group rounded-3xl border border-secondary/10 bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-primary/50 hover:shadow-xl hover:shadow-secondary/5"
         >
-          <FaCheckCircle className="text-primary" size={22} />
+          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-secondary/5 text-secondary transition-all duration-300 group-hover:bg-primary group-hover:text-secondary">
+            <FaCheckCircle size={17} />
+          </div>
 
-          <h3 className="mt-5 text-lg font-bold text-secondary">
+          <h3 className="mt-8 text-lg font-bold text-secondary">
             Production Orders
           </h3>
 

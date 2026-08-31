@@ -19,6 +19,8 @@ import AboutUs from "../pages/AboutUs/AboutUs";
 import ErrorPage from "../components/ErrorPage/ErrorPage";
 import Contact from "../pages/Contact/Contact";
 import AddProduct from "../pages/Dashboard/Manager/AddProduct";
+import ManageProducts from "../pages/Dashboard/Manager/ManageProducts";
+import PendingOrders from "../pages/Dashboard/Manager/PendingOrders";
 
 const router = createBrowserRouter([
   {
@@ -108,6 +110,14 @@ const router = createBrowserRouter([
       {
         path: "add-product",
         element: <AddProduct />
+      },
+      {
+        path: "manage-products",
+        element: <ManageProducts />
+      },
+      {
+        path: "pending-orders",
+        element: <PendingOrders />
       }
     ],
   },
