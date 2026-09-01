@@ -26,6 +26,7 @@ import AdminRoute from "./AdminRoute";
 import ManagerRoute from "./ManagerRoute";
 import MyOrders from "../pages/Dashboard/Buyer/MyOrders";
 import PaymentSuccess from "../pages/Dashboard/Payment/PaymentSuccess";
+import TrackOrder from "../pages/Dashboard/Buyer/TrackOrder";
 
 const router = createBrowserRouter([
   {
@@ -161,12 +162,20 @@ const router = createBrowserRouter([
       // buyer
       {
         path: "my-orders",
-        element: <MyOrders />
+        element: <MyOrders />,
       },
       {
         path: "payment-success",
-        element: <PaymentSuccess />
-      }
+        element: <PaymentSuccess />,
+      },
+      {
+        path: "track-order",
+        element: (
+          <PrivateRoute>
+            <TrackOrder />
+          </PrivateRoute>
+        ),
+      },
     ],
   },
 ]);

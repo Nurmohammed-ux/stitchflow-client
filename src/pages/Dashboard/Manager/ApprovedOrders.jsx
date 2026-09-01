@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   FaTruck,
   FaPlus,
@@ -56,6 +56,11 @@ const trackingStatuses = [
     label: "Out for Delivery",
     icon: FaTruck,
   },
+  {
+    value: "delivered",
+    label: "Delivered",
+    icon: FaCircleCheck,
+  },
 ];
 
 const ApprovedOrders = () => {
@@ -66,6 +71,7 @@ const ApprovedOrders = () => {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [trackingOrder, setTrackingOrder] = useState(null);
   const [search, setSearch] = useState("");
+  const [isLoadingAction, setIsLoadingAction] = useState(false);
 
   const [trackingForm, setTrackingForm] = useState({
     status: "",
@@ -109,16 +115,48 @@ const ApprovedOrders = () => {
   });
 
   // =========================================================
-  // ADD TRACKING MUTATION
+  // HANDLE TRACKING SUBMIT (SIMPLIFIED)
   // =========================================================
 
-  const addTrackingMutation = useMutation({
-    mutationFn: async (trackingInfo) => {
-      const res = await axiosSecure.post("/tracking", trackingInfo);
-      return res.data;
-    },
+  const handleTrackingSubmit = async (e) => {
+    e.preventDefault();
 
-    onSuccess: () => {
+    if (
+      !trackingForm.status ||
+      !trackingForm.location ||
+      !trackingForm.dateTime
+    ) {
+      Swal.fire({
+        icon: "warning",
+        title: "Required Fields",
+        text: "Please complete status, location and date/time.",
+        confirmButtonColor: "#85AD20",
+      });
+
+      return;
+    }
+
+    try {
+      setIsLoadingAction(true);
+
+      const statusLabel =
+        trackingStatuses.find((item) => item.value === trackingForm.status)
+          ?.label || trackingForm.status;
+
+      const trackingInfo = {
+        orderId: trackingOrder._id,
+        trackingId: trackingOrder.trackingId,
+
+        status: trackingForm.status,
+        statusLabel,
+
+        location: trackingForm.location,
+        details: trackingForm.note,
+        updatedAt: trackingForm.dateTime || new Date(),
+      };
+
+      await axiosSecure.post("/tracking", trackingInfo);
+
       Swal.fire({
         icon: "success",
         title: "Tracking Added",
@@ -142,61 +180,17 @@ const ApprovedOrders = () => {
         note: "",
         dateTime: "",
       });
-    },
-
-    onError: (error) => {
+    } catch (error) {
+      console.error("Tracking submit error:", error);
       Swal.fire({
         icon: "error",
         title: "Failed",
         text:
           error?.response?.data?.message || "Failed to add tracking update.",
       });
-    },
-  });
-
-  // =========================================================
-  // HANDLE TRACKING SUBMIT
-  // =========================================================
-
-  const handleTrackingSubmit = (e) => {
-    e.preventDefault();
-
-    if (
-      !trackingForm.status ||
-      !trackingForm.location ||
-      !trackingForm.dateTime
-    ) {
-      Swal.fire({
-        icon: "warning",
-        title: "Required Fields",
-        text: "Please complete status, location and date/time.",
-        confirmButtonColor: "#85AD20",
-      });
-
-      return;
+    } finally {
+      setIsLoadingAction(false);
     }
-
-    const statusLabel =
-      trackingStatuses.find((item) => item.value === trackingForm.status)
-        ?.label || trackingForm.status;
-
-    const trackingInfo = {
-      orderId: trackingOrder._id,
-      trackingId: trackingOrder.trackingId,
-
-      status: trackingForm.status,
-      statusLabel,
-
-      location: trackingForm.location,
-      details: trackingForm.note,
-
-      dateTime: new Date(trackingForm.dateTime),
-
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
-
-    addTrackingMutation.mutate(trackingInfo);
   };
 
   // =========================================================
@@ -345,23 +339,21 @@ const ApprovedOrders = () => {
                 <th className="px-6 py-4 text-[10px] uppercase tracking-widest text-secondary/30">
                   Order ID
                 </th>
-
                 <th className="px-6 py-4 text-[10px] uppercase tracking-widest text-secondary/30">
                   User
                 </th>
-
                 <th className="px-6 py-4 text-[10px] uppercase tracking-widest text-secondary/30">
                   Product
                 </th>
-
                 <th className="px-6 py-4 text-[10px] uppercase tracking-widest text-secondary/30">
                   Quantity
                 </th>
-
                 <th className="px-6 py-4 text-[10px] uppercase tracking-widest text-secondary/30">
                   Approved Date
                 </th>
-
+                <th className="px-6 py-4 text-[10px] uppercase tracking-widest text-secondary/30">
+                  Status
+                </th>
                 <th className="px-6 py-4 text-[10px] uppercase tracking-widest text-secondary/30">
                   Actions
                 </th>
@@ -374,32 +366,24 @@ const ApprovedOrders = () => {
                   key={order._id}
                   className="border-b border-secondary/5 transition hover:bg-primary/5"
                 >
-                  {/* ORDER */}
-
+                  {/* ORDER ID & SUB-BADGE */}
                   <td className="px-6 py-5">
                     <p className="font-mono text-xs font-semibold text-secondary">
                       {order.trackingId || order._id}
-                    </p>
-
-                    <span className="mt-1 inline-block rounded-full bg-primary/10 px-2.5 py-1 text-[9px] font-bold uppercase text-secondary">
-                      Approved
-                    </span>
+                    </p>        
                   </td>
 
                   {/* USER */}
-
                   <td className="px-6 py-5">
                     <p className="text-sm font-semibold text-secondary">
                       {order.firstName} {order.lastName}
                     </p>
-
                     <p className="mt-1 text-xs text-secondary/35">
                       {order.customerEmail}
                     </p>
                   </td>
 
                   {/* PRODUCT */}
-
                   <td className="px-6 py-5">
                     <div className="flex items-center gap-3">
                       <div className="h-11 w-11 overflow-hidden rounded-xl bg-secondary/5">
@@ -409,12 +393,10 @@ const ApprovedOrders = () => {
                           className="h-full w-full object-cover"
                         />
                       </div>
-
                       <div>
                         <p className="text-sm font-semibold text-secondary">
                           {order.productTitle}
                         </p>
-
                         <p className="text-xs text-secondary/35">
                           ৳{Number(order.unitPrice || 0).toLocaleString()} /
                           unit
@@ -424,7 +406,6 @@ const ApprovedOrders = () => {
                   </td>
 
                   {/* QUANTITY */}
-
                   <td className="px-6 py-5">
                     <span className="rounded-full bg-secondary/5 px-3 py-1.5 text-xs font-bold text-secondary">
                       {order.quantity}
@@ -432,7 +413,6 @@ const ApprovedOrders = () => {
                   </td>
 
                   {/* APPROVED DATE */}
-
                   <td className="px-6 py-5">
                     <p className="text-sm font-semibold text-secondary">
                       {order.approvedAt
@@ -441,7 +421,6 @@ const ApprovedOrders = () => {
                           ? new Date(order.updatedAt).toLocaleDateString()
                           : "—"}
                     </p>
-
                     <p className="mt-1 text-[10px] text-secondary/30">
                       {order.approvedAt
                         ? new Date(order.approvedAt).toLocaleTimeString([], {
@@ -452,16 +431,42 @@ const ApprovedOrders = () => {
                     </p>
                   </td>
 
-                  {/* ACTIONS */}
-
+                  {/* STATUS BADGE COLUMN (Consistent Styling) */}
                   <td className="px-6 py-5">
-                    <div className="flex items-center gap-2">
+                    <span className="inline-block rounded-full bg-secondary/5 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-secondary">
+                      {order.orderStatus
+                        ? order.orderStatus.replace(/-/g, " ")
+                        : "N/A"}
+                    </span>
+                  </td>
+
+                  {/* ACTIONS */}
+                  <td className="px-6 py-5">
+                    <div className="flex items-center gap-4">
                       <button
-                        onClick={() => setTrackingOrder(order)}
+                        onClick={() => {
+                          // Find the next status automatically
+                          const currentStatusVal = order.orderStatus;
+                          const currentIndex = trackingStatuses.findIndex(
+                            (s) => s.value === currentStatusVal,
+                          );
+                          const nextIndex =
+                            currentIndex === -1 ? 0 : currentIndex + 1;
+                          const nextStatusValue =
+                            trackingStatuses[nextIndex]?.value || "";
+
+                          setTrackingOrder(order);
+                          setTrackingForm({
+                            status: nextStatusValue, // Auto-selects the next logical step!
+                            location: "",
+                            note: "",
+                            dateTime: new Date().toISOString().slice(0, 16), // Optional: auto-fill current date/time format for datetime-local
+                          });
+                        }}
                         className="flex items-center gap-2 rounded-xl bg-primary px-3 py-2 text-xs font-bold text-secondary transition hover:shadow-lg hover:shadow-primary/20"
                       >
-                        <FaPlus size={11} />
                         Tracking
+                        <FaPlus size={11} />
                       </button>
 
                       <button
@@ -565,25 +570,50 @@ const ApprovedOrders = () => {
                   Production Status
                 </label>
 
-                <select
-                  value={trackingForm.status}
-                  onChange={(e) =>
-                    setTrackingForm({
-                      ...trackingForm,
-                      status: e.target.value,
-                    })
-                  }
-                  className="w-full rounded-xl border border-secondary/10 bg-[#f8faf8] px-4 py-3 text-sm text-secondary outline-none focus:border-primary"
-                  required
-                >
-                  <option value="">Select production status</option>
+                {/* select */}
+                {(() => {
+                  const currentStatusVal = trackingOrder?.orderStatus;
+                  const currentIndex = trackingStatuses.findIndex(
+                    (s) => s.value === currentStatusVal,
+                  );
 
-                  {trackingStatuses.map((status) => (
-                    <option key={status.value} value={status.value}>
-                      {status.label}
-                    </option>
-                  ))}
-                </select>
+                  const nextAllowedIndex =
+                    currentIndex === -1 ? 0 : currentIndex + 1;
+
+                  return (
+                    <select
+                      value={trackingForm.status}
+                      onChange={(e) =>
+                        setTrackingForm({
+                          ...trackingForm,
+                          status: e.target.value,
+                        })
+                      }
+                      className="w-full rounded-xl border border-secondary/10 bg-[#f8faf8] px-4 py-3 text-sm text-secondary outline-none focus:border-primary"
+                      required
+                    >
+                      <option value="" disabled>
+                        Select next production stage
+                      </option>
+
+                      {trackingStatuses.map((status, index) => {
+                        // Disable anything that is NOT the immediate next step
+                        const isDisabled = index !== nextAllowedIndex;
+                        const isCompleted = index < nextAllowedIndex;
+
+                        return (
+                          <option
+                            key={status.value}
+                            value={status.value}
+                            disabled={isDisabled}
+                          >
+                            {status.label} {isCompleted ? "✓ (Done)" : ""}
+                          </option>
+                        );
+                      })}
+                    </select>
+                  );
+                })()}
               </div>
 
               {/* LOCATION */}
@@ -677,12 +707,10 @@ const ApprovedOrders = () => {
 
                 <button
                   type="submit"
-                  disabled={addTrackingMutation.isPending}
+                  disabled={isLoadingAction}
                   className="rounded-xl bg-secondary px-5 py-3 text-sm font-bold text-white transition hover:bg-primary hover:text-secondary disabled:cursor-not-allowed disabled:opacity-50"
                 >
-                  {addTrackingMutation.isPending
-                    ? "Adding..."
-                    : "Add Tracking Update"}
+                  {isLoadingAction ? "Adding..." : "Add Tracking Update"}
                 </button>
               </div>
             </form>
