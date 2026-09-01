@@ -24,6 +24,8 @@ import PendingOrders from "../pages/Dashboard/Manager/PendingOrders";
 import ApprovedOrders from "../pages/Dashboard/Manager/ApprovedOrders";
 import AdminRoute from "./AdminRoute";
 import ManagerRoute from "./ManagerRoute";
+import MyOrders from "../pages/Dashboard/Buyer/MyOrders";
+import PaymentSuccess from "../pages/Dashboard/Payment/PaymentSuccess";
 
 const router = createBrowserRouter([
   {
@@ -156,6 +158,15 @@ const router = createBrowserRouter([
           </ManagerRoute>
         ),
       },
+      // buyer
+      {
+        path: "my-orders",
+        element: <MyOrders />
+      },
+      {
+        path: "payment-success",
+        element: <PaymentSuccess />
+      }
     ],
   },
 ]);
