@@ -263,7 +263,7 @@ const Sidebar = () => {
 
             <nav className="space-y-1">
               <NavLink
-                to="/dashboard/profile"
+                to="/dashboard/my-profile"
                 onClick={closeSidebar}
                 className={getNavClass}
               >

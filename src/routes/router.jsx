@@ -27,6 +27,7 @@ import ManagerRoute from "./ManagerRoute";
 import MyOrders from "../pages/Dashboard/Buyer/MyOrders";
 import PaymentSuccess from "../pages/Dashboard/Payment/PaymentSuccess";
 import TrackOrder from "../pages/Dashboard/Buyer/TrackOrder";
+import MyProfile from "../pages/MyProfile/MyProfile";
 
 const router = createBrowserRouter([
   {
@@ -175,6 +176,10 @@ const router = createBrowserRouter([
             <TrackOrder />
           </PrivateRoute>
         ),
+      },
+      {
+        path: "my-profile",
+        element: <MyProfile />,
       },
     ],
   },

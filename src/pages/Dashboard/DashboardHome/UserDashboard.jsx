@@ -1,4 +1,3 @@
-import { useQuery } from "@tanstack/react-query";
 import {
   ResponsiveContainer,
   AreaChart,
@@ -22,14 +21,14 @@ import {
   FaLocationDot,
 } from "react-icons/fa6";
 import { Link } from "react-router";
-
 import useAuth from "../../../hooks/useAuth";
 import Loading from "../../../components/Loading/Loading";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useState } from "react";
 import TrackingModal from "../../../components/TrackingModal/TrackingModal";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
 
-const BuyerOverview = () => {
+const UserDashboard = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
   const [viewTrackingId, setViewTrackingId] = useState(null);
@@ -49,7 +48,9 @@ const BuyerOverview = () => {
   const { data: orders = [] } = useQuery({
     queryKey: ["my-orders", user?.email],
     queryFn: async () => {
-      const res = await axiosSecure(`/orders/my-orders?email=${user.email}`);
+      const res = await axiosSecure.get(
+        `/orders/my-orders?email=${user.email}`,
+      );
       return res.data;
     },
   });
@@ -76,6 +77,7 @@ const BuyerOverview = () => {
 
   const stats = data?.stats || {};
 
+  // Updated cards to include Approved Orders and adjust layout grid
   const cards = [
     {
       title: "Total Orders",
@@ -154,7 +156,7 @@ const BuyerOverview = () => {
         </div>
       </div>
 
-      {/* ================= STAT CARDS ================= */}
+      {/* ================= STAT CARDS (Updated to 4 cards including Approved) ================= */}
 
       <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
         {cards.map((card) => {
@@ -376,7 +378,8 @@ const BuyerOverview = () => {
                 key={item.status}
                 className="flex items-center justify-between text-sm"
               >
-                <span className="capitalize text-secondary/50">
+                {/* Status style: uppercase and no hyphens */}
+                <span className="uppercase text-secondary/50">
                   {item.status?.replaceAll("-", " ")}
                 </span>
 
@@ -420,7 +423,7 @@ const BuyerOverview = () => {
                   </p>
                 </div>
 
-                <span className="rounded-full bg-primary/10 px-3 py-1 text-[10px] font-bold capitalize text-primary">
+                <span className="rounded-full bg-primary/10 px-3 py-1 text-[10px] font-bold uppercase text-primary">
                   {data.activeOrder.productionStage?.replaceAll("-", " ")}
                 </span>
               </div>
@@ -639,7 +642,8 @@ const BuyerOverview = () => {
                   </td>
 
                   <td className="px-6 py-4">
-                    <span className="rounded-full bg-primary/10 px-3 py-1 text-[10px] font-bold capitalize text-secondary">
+                    {/* Status style: uppercase and no hyphens */}
+                    <span className="rounded-full bg-primary/10 px-3 py-1 text-[10px] font-bold uppercase text-secondary">
                       {order.orderStatus?.replaceAll("-", " ") || "pending"}
                     </span>
                   </td>
@@ -717,4 +721,4 @@ const PaymentRow = ({ label, value, total }) => {
   );
 };
 
-export default BuyerOverview;
+export default UserDashboard;

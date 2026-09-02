@@ -11,6 +11,26 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { FaCheckCircle } from "react-icons/fa";
 import Loading from "../../../components/Loading/Loading";
 
+// Helper function to return unique colors based on status type
+const getStatusStyles = (status) => {
+  const formattedStatus = status?.toLowerCase() || "";
+
+  switch (formattedStatus) {
+    case "approved":
+      return "bg-emerald-50 text-emerald-600";
+    case "pending-review":
+      return "bg-amber-50 text-amber-600";
+    case "rejected":
+      return "bg-rose-50 text-rose-600 border border-rose-200";
+    case "processing":
+      return "bg-sky-50 text-sky-600 border border-sky-200";
+    case "completed":
+      return "bg-indigo-50 text-indigo-600 border border-indigo-200";
+    default:
+      return "bg-slate-50 text-slate-600 border border-slate-200";
+  }
+};
+
 const ManagerOverview = () => {
   const axiosSecure = useAxiosSecure();
 
@@ -55,15 +75,15 @@ const ManagerOverview = () => {
 
   const chartData = [
     {
-      name: "Pending",
+      name: "PENDING",
       value: dashboard.pendingOrders || 0,
     },
     {
-      name: "Approved",
+      name: "APPROVED",
       value: dashboard.approvedOrders || 0,
     },
     {
-      name: "Rejected",
+      name: "REJECTED",
       value: dashboard.rejectedOrders || 0,
     },
   ];
@@ -129,9 +149,7 @@ const ManagerOverview = () => {
                 {stat.value}
               </h2>
 
-              <p className="mt-2 text-xs text-secondary/35">
-                {stat.description}
-              </p>
+              <p className="mt-2 text-xs text-secondary/35">{stat.text}</p>
             </div>
           );
         })}
@@ -187,7 +205,7 @@ const ManagerOverview = () => {
 
           <div className="space-y-3">
             <div className="flex items-center justify-between text-sm">
-              <span className="flex items-center gap-2 text-secondary/50">
+              <span className="flex items-center gap-2 uppercase tracking-wide text-secondary/50">
                 <span className="h-2.5 w-2.5 rounded-full bg-amber-500" />
                 Pending
               </span>
@@ -198,7 +216,7 @@ const ManagerOverview = () => {
             </div>
 
             <div className="flex items-center justify-between text-sm">
-              <span className="flex items-center gap-2 text-secondary/50">
+              <span className="flex items-center gap-2 uppercase tracking-wide text-secondary/50">
                 <span className="h-2.5 w-2.5 rounded-full bg-primary" />
                 Approved
               </span>
@@ -209,7 +227,7 @@ const ManagerOverview = () => {
             </div>
 
             <div className="flex items-center justify-between text-sm">
-              <span className="flex items-center gap-2 text-secondary/50">
+              <span className="flex items-center gap-2 uppercase tracking-wide text-secondary/50">
                 <span className="h-2.5 w-2.5 rounded-full bg-red-500" />
                 Rejected
               </span>
@@ -300,16 +318,13 @@ const ManagerOverview = () => {
                     </td>
 
                     <td className="px-6 py-4">
+                      {/* Dynamic colorful badge styling */}
                       <span
-                        className={`rounded-full px-3 py-1 text-xs font-bold ${
-                          order.orderStatus === "approved"
-                            ? "bg-primary/20 text-secondary"
-                            : order.orderStatus === "rejected"
-                              ? "bg-red-50 text-red-500"
-                              : "bg-amber-50 text-amber-600"
-                        }`}
+                        className={`inline-block rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-wider ${getStatusStyles(
+                          order.orderStatus
+                        )}`}
                       >
-                        {order.orderStatus}
+                        {order.orderStatus?.replaceAll("-", " ") || "pending"}
                       </span>
                     </td>
                   </tr>
@@ -334,7 +349,7 @@ const ManagerOverview = () => {
       {/* ================= QUICK ACTIONS ================= */}
 
       <div className="mt-6 grid gap-5 md:grid-cols-3">
-        {/* Card 1: Add New Product (Dark Theme Variant) */}
+        {/* Card 1: Add New Product */}
         <Link
           to="/dashboard/add-product"
           className="group rounded-3xl bg-secondary p-6 text-white transition-all duration-300 hover:-translate-y-1 hover:border hover:border-primary/50 hover:shadow-xl hover:shadow-secondary/5"

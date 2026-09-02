@@ -43,6 +43,7 @@ const MyOrders = () => {
     enabled: !!user?.email,
   });
 
+  console.log(orders);
   // ================= LOADING =================
 
   if (isLoading) {
@@ -184,11 +185,8 @@ const MyOrders = () => {
           icon={FaTruck}
           label="In Production"
           value={
-            orders.filter(
-              (order) =>
-                order.productionStage &&
-                order.productionStage !== "not-started",
-            ).length
+            orders.filter((order) => order.productionStage === "in-production")
+              .length
           }
           description="Production started"
         />
