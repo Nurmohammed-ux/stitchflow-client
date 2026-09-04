@@ -10,7 +10,7 @@ import {
   FaCheck,
   FaPen,
 } from "react-icons/fa6";
-import UseAxiosSecure from "../../../hooks/UseAxiosSecure";
+import UseAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const ManageUsers = () => {
   const axiosSecure = UseAxiosSecure();

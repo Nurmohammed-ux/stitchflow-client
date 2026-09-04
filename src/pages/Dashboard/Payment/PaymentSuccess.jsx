@@ -14,8 +14,6 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Loading from "../../../components/Loading/Loading";
 import { FaCheckCircle } from "react-icons/fa";
 import TrackingModal from "../../../components/TrackingModal/TrackingModal";
-// Make sure to import your TrackingModal if it's in another file:
-// import TrackingModal from "../../../components/TrackingModal/TrackingModal";
 
 const PaymentSuccess = () => {
   const [searchParams] = useSearchParams();

@@ -218,7 +218,7 @@ const DashboardAllProducts = () => {
 
       <div className="overflow-hidden rounded-3xl border border-secondary/10 bg-white shadow-sm">
         <div className="overflow-x-auto">
-          <table className="w-full min-w-245">
+          <table className="w-full min-w-67.5">
             <thead className="border-b border-secondary/10 bg-[#f8faf8]">
               <tr className="text-left">
                 <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-secondary/40">
@@ -235,6 +235,10 @@ const DashboardAllProducts = () => {
 
                 <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-secondary/40">
                   Category
+                </th>
+
+                <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-secondary/40">
+                  Status
                 </th>
 
                 <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-secondary/40">
@@ -274,7 +278,7 @@ const DashboardAllProducts = () => {
                       {product.productName}
                     </p>
 
-                    <p className="mt-1 max-w-xs truncate text-xs text-secondary/40">
+                    <p className="mt-1 max-w-50 truncate text-xs text-secondary/40">
                       {product.description}
                     </p>
                   </td>
@@ -291,6 +295,24 @@ const DashboardAllProducts = () => {
                     <span className="rounded-full bg-secondary/5 px-3 py-1 text-xs font-semibold text-secondary">
                       {product.category}
                     </span>
+                  </td>
+
+                  {/* STATUS */}
+
+                  <td className="px-6 py-4">
+                    <div className="flex items-center gap-2">
+                      <span
+                        className={`h-2 w-2 rounded-full ${
+                          product?.status === "Approved" ||
+                          product?.status === "Active"
+                            ? "bg-green-500"
+                            : "bg-primary"
+                        }`}
+                      />
+                      <span className="text-xs text-secondary/60 uppercase">
+                        {product?.status}
+                      </span>
+                    </div>
                   </td>
 
                   {/* CREATED BY */}
@@ -347,7 +369,7 @@ const DashboardAllProducts = () => {
               {products.length === 0 && (
                 <tr>
                   <td
-                    colSpan="7"
+                    colSpan="8"
                     className="px-6 py-16 text-center text-sm text-secondary/40"
                   >
                     No products found.
@@ -402,7 +424,6 @@ const DashboardAllProducts = () => {
       {/* =====================================================
           UPDATE MODAL
       ===================================================== */}
-
       {showModal && selectedProduct && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-secondary/50 p-4 backdrop-blur-sm">
           <div className="max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-3xl bg-white shadow-2xl">

@@ -46,28 +46,30 @@ const ManagerOverview = () => {
     return <Loading />;
   }
 
+  const statsData = dashboard.stats || {};
+
   const stats = [
     {
       title: "Total Products",
-      value: dashboard.totalProducts || 0,
+      value: statsData.totalProducts || 0,
       icon: FaBoxOpen,
       text: "Products in system",
     },
     {
       title: "Pending Orders",
-      value: dashboard.pendingOrders || 0,
+      value: statsData.pendingOrders || 0,
       icon: FaClock,
       text: "Waiting for approval",
     },
     {
       title: "Approved Orders",
-      value: dashboard.approvedOrders || 0,
+      value: statsData.approvedOrders || 0,
       icon: FaCheckCircle,
       text: "Ready for production",
     },
     {
       title: "Total Orders",
-      value: dashboard.totalOrders || 0,
+      value: statsData.totalOrders || 0,
       icon: FaClipboardList,
       text: "All customer orders",
     },
@@ -76,18 +78,17 @@ const ManagerOverview = () => {
   const chartData = [
     {
       name: "PENDING",
-      value: dashboard.pendingOrders || 0,
+      value: statsData.pendingOrders || 0,
     },
     {
       name: "APPROVED",
-      value: dashboard.approvedOrders || 0,
+      value: statsData.approvedOrders || 0,
     },
     {
       name: "REJECTED",
-      value: dashboard.rejectedOrders || 0,
+      value: statsData.rejectedOrders || 0,
     },
   ];
-
   return (
     <div className="min-h-screen bg-[#f8faf8] py-8 md:px-10 lg:px-12">
       {/* ================= HEADER ================= */}
@@ -211,7 +212,7 @@ const ManagerOverview = () => {
               </span>
 
               <span className="font-bold text-secondary">
-                {dashboard.pendingOrders || 0}
+                {statsData.pendingOrders || 0}
               </span>
             </div>
 
@@ -222,7 +223,7 @@ const ManagerOverview = () => {
               </span>
 
               <span className="font-bold text-secondary">
-                {dashboard.approvedOrders || 0}
+                {statsData.approvedOrders || 0}
               </span>
             </div>
 
@@ -233,7 +234,7 @@ const ManagerOverview = () => {
               </span>
 
               <span className="font-bold text-secondary">
-                {dashboard.rejectedOrders || 0}
+                {statsData.rejectedOrders || 0}
               </span>
             </div>
           </div>
@@ -321,10 +322,11 @@ const ManagerOverview = () => {
                       {/* Dynamic colorful badge styling */}
                       <span
                         className={`inline-block rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-wider ${getStatusStyles(
-                          order.orderStatus
+                          order.effectiveStatus,
                         )}`}
                       >
-                        {order.orderStatus?.replaceAll("-", " ") || "pending"}
+                        {order.effectiveStatus?.replaceAll("-", " ") ||
+                          "pending"}
                       </span>
                     </td>
                   </tr>

@@ -28,6 +28,7 @@ import MyOrders from "../pages/Dashboard/Buyer/MyOrders";
 import PaymentSuccess from "../pages/Dashboard/Payment/PaymentSuccess";
 import TrackOrder from "../pages/Dashboard/Buyer/TrackOrder";
 import MyProfile from "../pages/MyProfile/MyProfile";
+import PaymentCancelled from "../pages/Dashboard/Payment/PaymentCancelled";
 
 const router = createBrowserRouter([
   {
@@ -170,7 +171,11 @@ const router = createBrowserRouter([
         element: <PaymentSuccess />,
       },
       {
-        path: "track-order",
+        path: "payment-cancelled",
+        element: <PaymentCancelled />,
+      },
+      {
+        path: "track-order/:orderId",
         element: (
           <PrivateRoute>
             <TrackOrder />

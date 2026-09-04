@@ -3,7 +3,6 @@ import {
   FaChartPie,
   FaClipboardList,
   FaBoxOpen,
-  FaTruck,
   FaUsers,
   FaArrowRightFromBracket,
   FaBars,
@@ -29,11 +28,6 @@ const buyerItems = [
     title: "My Orders",
     path: "/dashboard/my-orders",
     icon: FaClipboardList,
-  },
-  {
-    title: "Track Order",
-    path: "/dashboard/track-order",
-    icon: FaTruck,
   },
 ];
 

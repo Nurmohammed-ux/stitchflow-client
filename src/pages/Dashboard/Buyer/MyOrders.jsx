@@ -43,7 +43,6 @@ const MyOrders = () => {
     enabled: !!user?.email,
   });
 
-  console.log(orders);
   // ================= LOADING =================
 
   if (isLoading) {
@@ -72,20 +71,36 @@ const MyOrders = () => {
 
   // ================= STATUS =================
 
+  const getCustomerStatus = (order) => {
+    // Directly uses the exact orderStatus from your database (e.g. cutting-completed)
+    return order.orderStatus?.toLowerCase() || "pending";
+  };
+
   const getStatusStyle = (status) => {
     switch (status) {
       case "approved":
         return "bg-primary/15 text-secondary";
 
-      case "pending-review":
       case "pending":
+      case "pending-review":
         return "bg-amber-100 text-amber-700";
+
+      case "cutting-completed":
+      case "in-production":
+      case "sewing-started":
+      case "finishing":
+      case "qc-checked":
+        return "bg-blue-100 text-blue-700";
+
+      case "completed":
+      case "packed":
+      case "shipped":
+      case "out-for-delivery":
+      case "delivered":
+        return "bg-emerald-100 text-emerald-700";
 
       case "rejected":
         return "bg-red-100 text-red-600";
-
-      case "completed":
-        return "bg-emerald-100 text-emerald-700";
 
       default:
         return "bg-secondary/5 text-secondary/50";
@@ -108,8 +123,6 @@ const MyOrders = () => {
     };
 
     const res = await axiosSecure.post(`/payment-checkout-session`, orderInfo);
-
-    // console.log(res.data.url);
 
     window.location.assign(res.data.url);
   };
@@ -277,141 +290,141 @@ const MyOrders = () => {
               {/* TABLE BODY */}
 
               <tbody>
-                {orders.map((order) => (
-                  <tr
-                    key={order._id}
-                    className="border-b border-secondary/5 transition hover:bg-primary/5"
-                  >
-                    {/* ORDER */}
+                {orders.map((order) => {
+                  const status = getCustomerStatus(order);
+                  return (
+                    <tr
+                      key={order._id}
+                      className="border-b border-secondary/5 transition hover:bg-primary/5"
+                    >
+                      {/* ORDER */}
 
-                    <td className="px-6 py-5">
-                      <div>
-                        <p className="font-mono text-xs font-bold text-secondary/70">
-                          {order.trackingId || order._id}
-                        </p>
-
-                        <p className="mt-1 text-[10px] text-secondary/30">
-                          {order.createdAt
-                            ? new Date(order.createdAt).toLocaleDateString(
-                                "en-BD",
-                                {
-                                  day: "2-digit",
-                                  month: "short",
-                                  year: "numeric",
-                                },
-                              )
-                            : "—"}
-                        </p>
-                      </div>
-                    </td>
-
-                    {/* PRODUCT */}
-
-                    <td className="px-6 py-5">
-                      <div className="flex items-center gap-3">
-                        <div className="h-11 w-11 shrink-0 overflow-hidden rounded-xl bg-secondary/5">
-                          {order.productImage ? (
-                            <img
-                              src={order.productImage}
-                              alt={order.productTitle}
-                              className="h-full w-full object-cover"
-                            />
-                          ) : (
-                            <div className="flex h-full items-center justify-center text-secondary/20">
-                              <FaBoxOpen size={15} />
-                            </div>
-                          )}
-                        </div>
-
+                      <td className="px-6 py-5">
                         <div>
-                          <p className="text-sm font-bold text-secondary">
-                            {order.productTitle}
+                          <p className="font-mono text-xs font-bold text-secondary/70">
+                            {order.trackingId || order._id}
                           </p>
 
-                          <p className="mt-1 text-xs text-secondary/35">
-                            ৳{Number(order.unitPrice || 0).toLocaleString()} /
-                            unit
+                          <p className="mt-1 text-[10px] text-secondary/30">
+                            {order.createdAt
+                              ? new Date(order.createdAt).toLocaleDateString(
+                                  "en-BD",
+                                  {
+                                    day: "2-digit",
+                                    month: "short",
+                                    year: "numeric",
+                                  },
+                                )
+                              : "—"}
                           </p>
                         </div>
-                      </div>
-                    </td>
+                      </td>
 
-                    {/* QUANTITY */}
+                      {/* PRODUCT */}
 
-                    <td className="px-6 py-5">
-                      <span className="rounded-full bg-secondary/5 px-3 py-1.5 font-mono text-xs font-bold text-secondary">
-                        {order.quantity}
-                      </span>
-                    </td>
+                      <td className="px-6 py-5">
+                        <div className="flex items-center gap-3">
+                          <div className="h-11 w-11 shrink-0 overflow-hidden rounded-xl bg-secondary/5">
+                            {order.productImage ? (
+                              <img
+                                src={order.productImage}
+                                alt={order.productTitle}
+                                className="h-full w-full object-cover"
+                              />
+                            ) : (
+                              <div className="flex h-full items-center justify-center text-secondary/20">
+                                <FaBoxOpen size={15} />
+                              </div>
+                            )}
+                          </div>
 
-                    {/* STATUS */}
+                          <div>
+                            <p className="text-sm font-bold text-secondary">
+                              {order.productTitle}
+                            </p>
 
-                    <td className="px-6 py-5">
-                      <span
-                        className={`rounded-full px-3 py-1.5 text-[10px] font-bold capitalize ${getStatusStyle(
-                          order.orderStatus,
-                        )}`}
-                      >
-                        {getStatusLabel(order.orderStatus)}
-                      </span>
-                    </td>
+                            <p className="mt-1 text-xs text-secondary/35">
+                              ৳{Number(order.unitPrice || 0).toLocaleString()} /
+                              unit
+                            </p>
+                          </div>
+                        </div>
+                      </td>
 
-                    {/* PAYMENT */}
+                      {/* QUANTITY */}
 
-                    {/* PAYMENT */}
-                    <td className="px-6 py-5">
-                      {order.paymentStatus === "paid" ? (
-                        <span className="text-green-600 bg-green-200 py-1 px-3 rounded-full font-medium text-[10px]">
-                          Paid
+                      <td className="px-6 py-5">
+                        <span className="rounded-full bg-secondary/5 px-3 py-1.5 font-mono text-xs font-bold text-secondary">
+                          {order.quantity}
                         </span>
-                      ) : order.orderStatus === "pending-review" ||
-                        order.orderStatus === "pending" ? (
-                        <span className="text-amber-700 bg-amber-100 py-1 px-3 rounded-full font-medium text-[10px]">
-                          Pending
+                      </td>
+
+                      {/* STATUS */}
+
+                      <td className="px-6 py-5">
+                        <span
+                          className={`rounded-full px-3 py-1.5 text-[10px] font-bold capitalize ${getStatusStyle(
+                            status,
+                          )}`}
+                        >
+                          {getStatusLabel(status)}
                         </span>
-                      ) : order.orderStatus === "approved" ? (
-                        <button
-                          onClick={() => handlePayment(order)}
-                          className="btn btn-xs btn-primary text-[10px] text-secondary border-0 rounded-full px-2 py-3"
-                        >
-                          Ready for payment
-                        </button>
-                      ) : (
-                        <span className="text-secondary/40 text-xs">—</span>
-                      )}
-                    </td>
+                      </td>
 
-                    {/* ACTIONS */}
+                      {/* PAYMENT */}
+                      <td className="px-6 py-5">
+                        {order.paymentStatus === "paid" ? (
+                          <span className="text-green-600 bg-green-200 py-1 px-3 rounded-full font-medium text-[10px]">
+                            Paid
+                          </span>
+                        ) : order.orderStatus === "pending-review" ||
+                          order.orderStatus === "pending" ? (
+                          <span className="text-amber-700 bg-amber-100 py-1 px-3 rounded-full font-medium text-[10px]">
+                            Pending
+                          </span>
+                        ) : order.orderStatus === "approved" ? (
+                          <button
+                            onClick={() => handlePayment(order)}
+                            className="btn btn-xs btn-primary text-[10px] text-secondary border-0 rounded-full px-2 py-3"
+                          >
+                            Ready for payment
+                          </button>
+                        ) : (
+                          <span className="text-secondary/40 text-xs">—</span>
+                        )}
+                      </td>
 
-                    <td className="px-6 py-5">
-                      <div className="flex items-center gap-2">
-                        {/* VIEW */}
+                      {/* ACTIONS */}
 
-                        <button
-                          type="button"
-                          onClick={() => setSelectedOrder(order)}
-                          className="flex h-9 w-9 items-center justify-center rounded-xl bg-secondary/5 text-secondary/50 transition hover:bg-secondary hover:text-white"
-                          title="View order"
-                        >
-                          <FaEye size={13} />
-                        </button>
+                      <td className="px-6 py-5">
+                        <div className="flex items-center gap-4">
+                          {/* VIEW */}
 
-                        {/* TRACK */}
-
-                        {order.trackingId && (
                           <button
                             type="button"
-                            onClick={() => setViewTrackingId(order.trackingId)}
-                            className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary/10 text-secondary transition hover:bg-primary"
-                            title="Track order"
+                            onClick={() => setSelectedOrder(order)}
+                            className="flex h-9 w-9 items-center justify-center rounded-xl bg-secondary/5 text-secondary transition  hover:bg-primary hover:text-secondary"
+                            title="View order"
                           >
-                            <FaTruck size={13} />
+                            <FaEye size={13} />
                           </button>
-                        )}
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+
+                          {/* TRACK */}
+
+                          {order.trackingId && (
+                            <Link
+                              to={`/dashboard/track-order/${order._id}`}
+                              title="Track Order"
+                              className="flex h-9 w-9 items-center justify-center rounded-xl bg-secondary/5 text-secondary transition hover:bg-primary hover:text-secondary"
+                            >
+                              <FaTruck size={13} />
+                            </Link>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>

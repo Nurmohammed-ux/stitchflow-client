@@ -154,7 +154,7 @@ const Booking = () => {
           confirmButtonColor: "#062746",
         });
         
-        navigate("/all-products");
+        navigate("/dashboard/my-orders");
       }
     } catch (error) {
       console.error("Booking failed:", error);
